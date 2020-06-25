@@ -4,6 +4,17 @@ const request = require("request");
 const _ = require("lodash");
 
 let self = module.exports = {
+
+  dbQuery: async (query) => {
+    const response = await new Promise((resolve, reject) => {
+      connect.query(query, (error, result, fields) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
+    });
+    return response;
+  },
+
   getObjectData: (data, status) => {
     response = {};
     response.statusCode = status;
@@ -108,10 +119,4 @@ let self = module.exports = {
       }
     );
   },
-
-
-
-
-
-  
-  };
+};

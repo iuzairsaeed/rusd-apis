@@ -4,9 +4,9 @@ const express = require("express");
 const compression = require("compression");
 const bodyParser = require("body-parser");
 const PORT = config.port;
-const moment = require('moment');
+// const moment = require('moment');
 
-console.log(moment().format());
+// console.log(moment().format());
 // App using express framework
 const app = express();
 app.set("view engine", "ejs");
@@ -18,9 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
-const routes = require("./routes/web")(app, express);
+const routes = require("./routes/api")(app, express);
 app.use(routes);
-
 
 // listening to the port
 app.listen(PORT, () => {
