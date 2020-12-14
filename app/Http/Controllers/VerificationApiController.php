@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\User;
-// use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 
@@ -41,11 +40,9 @@ class VerificationApiController extends Controller
 	{
 		if ($request->user()->hasVerifiedEmail()) {
 			return response()->json('User already have verified email!', 422);
-		// return redirect($this->redirectPath());
 		}
 
 		$request->user()->sendEmailVerificationNotification();
 			return response()->json('The notification has been resubmitted');
-		// return back()->with(‘resent’, true);
 	}
 }
