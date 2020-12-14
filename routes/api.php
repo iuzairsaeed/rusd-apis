@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('registration', 'AuthController@signUp');
 Route::post('login', 'AuthController@login');
+Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
+Route::get('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');
 
 
 

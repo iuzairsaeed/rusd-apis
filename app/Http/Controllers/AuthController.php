@@ -98,8 +98,15 @@ class AuthController extends Controller
             'role_id'	=> 1 // role id 1 for app user
 
         ]);
+
+        $user->sendApiEmailVerificationNotification();
+
  
-       return response()->json(["data" => $user,"message" => "success", "code" => 200]);
+       return response()->json([
+       	"data" 		=> $user,
+       	"message" 	=> "Verification email has been sent to your account",
+       	 "code" 	=> 200
+       ]);
 
     }
 }
