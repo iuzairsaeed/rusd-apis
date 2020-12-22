@@ -76,6 +76,11 @@ class UserFormApiController extends Controller
 
         }
 
+        // update current form step 
+        $user       = User::find($userId);
+        $user->form_step = $request->step;
+        $user->save(); 
+        
         return response()->json([
                 'success'    => true,
                 'data'       => $req ,
