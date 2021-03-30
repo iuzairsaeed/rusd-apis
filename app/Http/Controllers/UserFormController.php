@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\UserForm;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserFormController extends Controller
 {
@@ -14,7 +15,7 @@ class UserFormController extends Controller
      */
     public function index()
     {
-        //
+        return view('step-form.user-form');
     }
 
     /**

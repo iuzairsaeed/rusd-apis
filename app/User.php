@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         $this->notify(new VerifyApiEmail); // my notification
     }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
 }

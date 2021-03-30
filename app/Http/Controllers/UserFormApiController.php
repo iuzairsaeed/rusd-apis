@@ -51,6 +51,7 @@ class UserFormApiController extends Controller
         $headingName = str_replace(' ', '_', strtolower($request->heading_name));
 
         foreach ($req as $postKeyName => $postKeyValue) {
+            
             $userForm = UserForm::where('user_id',$userId)->where('key',$postKeyName)->first();
             // check form data empty then save enteries never update
             if (empty($userForm)) {

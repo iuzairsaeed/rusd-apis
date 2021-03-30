@@ -18,6 +18,7 @@ Route::post('login', 'AuthController@login');
 Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
 Route::get('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');
 
+Route::get('forgot-password', 'AuthController@forgot_password');
 
 
 
