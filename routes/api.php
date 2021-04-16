@@ -18,6 +18,12 @@ Route::post('login', 'AuthController@login');
 Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
 Route::get('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');
 
+
+Route::post('send-forget-code', 'AuthController@sendForgetPasswordCode');
+Route::post('check-reset-code', 'AuthController@checkResetCode');
+Route::post('reset-password', 'AuthController@resetPassword');
+
+
 Route::get('forgot-password', 'AuthController@forgot_password');
 
 

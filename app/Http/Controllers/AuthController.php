@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\User;
 use Auth;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -179,6 +180,206 @@ class AuthController extends Controller
 	  Auth::logout();
 	  return redirect('/login');
 	}
+
+
+	public function sendForgetPasswordCode(Request $request)
+    {
+
+    	try {
+
+    		$validator = Validator::make($request->all(), [
+	            'email' => 'required|email',
+	        ]);
+
+	        if($validator->fails()){
+	            return response()->json([
+                    'status'  => false,
+                    'data'	  => NULL,
+                    'message' => 'validation error',
+                    'code'    => 422
+                ], 422); 
+	        }
+
+	        $email = User::where('email',$request->email)->get()->count();
+
+	        if ( $email == 0 ) {
+	        	return response()->json([
+                    'status'  => false,
+                    'data'	  => NULL,
+                    'message' => 'Email not found',
+                    'code'    => 422
+                ], 422); 
+	        }
+
+
+	        $code = mt_rand(10000, 99999);
+		    $user = User::where('email',$request->email)->update([
+	            'verify_code'		=> $code,
+	        ]);
+
+	         Mail::send('mails.verfication',['data'=>['code'=>$code]], function ($message)use($request) {
+
+			    $message->to($request->email);
+			});
+
+
+	        // Mail::to($request->email)->send(new VerificationCode(['code'=>$code]));
+
+
+	        return response()->json([
+	       	"status"	=> true,
+	     //   	'token' 	 => $tokenResult,
+		    // 'token_type' => 'Bearer',
+	       	"data" 		=> NULL,
+	       	"message" 	=> "Verification email has been sent to your account",
+	       	"code" 		=> 200
+	       ]);
+
+    		
+    	} catch (Exception $e) {
+    		
+    	}
+
+    }
+
+    public function checkResetCode(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+	            'code' 			=> 'required',
+	        ]);
+
+
+	        if($validator->fails()){
+	            return response()->json([
+                    'status'  => false,
+                    'data' 	  => NULL,
+                    'message' => $validator->errors(),
+                    'code'    => 422
+                ], 422);
+
+
+                $statusCode = 422; 
+	        }
+
+		try {
+
+			$checkUserCode = User::where('verify_code',$request->code)->first();
+
+			if (empty($checkUserCode)) {
+				$res = [
+	        			"status" 	=> false,
+	        		 	"data" 		=> NULL,
+	        			"message"	=> "Please enter valid Verification Code",
+	        		 	"code" 		=> 422
+	        		];
+
+				$statusCode = 422;
+
+			}else{
+
+				$res = [
+	        			"status" 	=> true,
+	        		 	"data" 		=> NULL,
+	        			"message"	=> "Verification Code matched",
+	        		 	"code" 		=> 200
+	        		];
+
+				$statusCode = 200;
+
+
+			}
+			
+		} catch (Exception $e) {
+
+			return response()->json([
+			      'status' 		=> false,
+	        	  'data' 		=> NULL,
+			      'message' 	=> 'Error in Code',
+			      'code' 		=> 500,
+			    ],500);
+
+		}
+
+		return \Response::json($res,$statusCode);
+	}
+
+    public function resetPassword(Request $request)
+    {
+    	$statusCode = 200;
+
+    	$input = $request->all();
+	    $rules = array(
+	    	'code' 				=> 'required',
+	        'new_password'	 	=> 'required',
+	        // 'new_password' 		=> 'required|string|min:10|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+	        // 'confirm_password' 	=> 'required|same:new_password',
+	    );
+	    $validator = Validator::make($input, $rules);
+	    if ($validator->fails()) {
+
+	        $arr = [
+	        	"status" 	=> false, 
+	        	"message" 	=> 'validation error', 
+	        	"data" 		=> NULL,
+	        	"code" 		=> 422
+	        ];
+
+	        $statusCode = 422;
+
+	    } else {
+	 
+	 
+	        try {
+	        
+	        	$checkUserCode = User::where('verify_code',$request->code)->first();
+
+	        	if (empty($checkUserCode)) {
+
+	        		$arr = [
+	        			"status" 	=> false,
+	        		 	"data" 		=> NULL,
+	        			"message"	=> "Please enter valid Verification Code",
+	        		 	"code" 		=> 422
+	        		];
+
+	        		$statusCode = 422;
+
+
+	        	}else{
+	        	
+		            User::where('verify_code', $request->code)->update([
+		            	'password' 		=> Hash::make($input['new_password']),
+		            	'verify_code'	=> 'verfied'
+		            ]);
+
+		            $arr = array("status" => 200, "message" => "Password updated successfully.", "data" => NULL);
+	        		$statusCode = 200;
+
+
+	            }
+
+	        } catch (\Exception $ex) {
+
+	            if (isset($ex->errorInfo[2])) {
+	                $msg = $ex->errorInfo[2];
+	            } else {
+	                $msg = $ex->getMessage();
+	            }
+
+	            $arr = [
+	            	"status"	=> false, 
+	            	"data" 		=> NULL , 
+	            	"message" 	=> $msg, 
+	            	"code" 		=> 422
+	            ];
+	            $statusCode = 422;
+	        }
+	    }
+
+	    return \Response::json($arr,$statusCode);
+
+    }
+    
 
 
 
