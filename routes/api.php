@@ -18,6 +18,10 @@ Route::post('login', 'AuthController@login');
 Route::get('email/verify/{id}', 'VerificationApiController@verify')->name('verificationapi.verify');
 Route::get('email/resend', 'VerificationApiController@resend')->name('verificationapi.resend');
 
+Route::get('calculator/{type}', 'UserPlanController@calculator')->name('calculator.bank');
+Route::get('plans', 'UserPlanController@plans')->name('plans.bank');
+
+
 
 Route::post('send-forget-code', 'AuthController@sendForgetPasswordCode');
 Route::post('check-reset-code', 'AuthController@checkResetCode');
