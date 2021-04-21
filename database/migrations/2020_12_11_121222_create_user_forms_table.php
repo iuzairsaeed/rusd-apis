@@ -20,6 +20,8 @@ class CreateUserFormsTable extends Migration
             $table->longText('value')->nullable();
             $table->longText('heading_name')->nullable();
             $table->string('step_no')->nullable();
+            $table->text('verify_code')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
