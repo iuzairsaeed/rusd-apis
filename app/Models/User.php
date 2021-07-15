@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Constant;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\ModelStatus\HasStatuses;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, HasApiTokens, Notifiable, HasRoles;
+    use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
 
     protected $guarded = [];
 

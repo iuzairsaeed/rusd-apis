@@ -3,6 +3,9 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 use DB;
 
 class Repository implements RepositoryInterface
@@ -136,6 +139,100 @@ class Repository implements RepositoryInterface
             'message' => $message,
             'response' => $response,
             'recordsFiltered' => $recordsFiltered,
+            'recordsTotal' => $recordsTotal,
+            'data' => $records,
+        ];
+    }
+
+    // Get data for Api
+    public function getDataApi($request, $with, $withTrash, $withCount, $whereHas, $withSums, $withSumsCol, $addWithSums, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols, $currentStatus)
+    {
+        $start = $request->start ?? 0;
+        $length = $request->length ?? 10;
+        $filter = $request->search;
+        $order = $request->order;
+        $search = optional($filter)['value'] ?? 0;
+        $sort = optional($order)[0]['column'] ?? 0;
+        $dir = optional($order)[0]['dir'] ?? 0;
+        $from = $request->date_from;
+        $to = $request->date_to;
+
+        $records = $this->model->with($with)->withCount($withCount);
+
+        if($whereHas){
+            $records->has($whereHas);
+        }
+        if($currentStatus){
+            $records->currentStatus($currentStatus);
+        }
+        if($withSums){
+            foreach($withSums as $key => $withSum){
+                $records->withCount([
+                    $withSum.' AS '.$withSum.'_sum' => function ($query) use ($withSumsCol, $key) {
+                        $query->select(DB::raw('SUM('.$withSumsCol[$key].')'));
+                    }
+                ]);
+                if(optional($addWithSums)[$key]){
+                    $records->withCount([
+                        $withSum.' AS '.$withSum.'_'.$addWithSums[$key].'_sum' => function ($query) use ($withSumsCol, $key, $addWithSums) {
+                            $query->select(DB::raw('SUM('.$withSumsCol[$key].') + '.$addWithSums[$key]));
+                        }
+                    ]);
+                }
+            }
+        }
+        if($whereChecks){
+            foreach($whereChecks as $key => $check){
+                $records->where($check, $whereOps[$key] ?? '=', $whereVals[$key]);
+            }
+        }
+        $recordsTotal = $records->count();
+
+        if($from){
+            $records->whereDate('created_at' ,'>=', $from);
+        }
+        if($to){
+            $records->whereDate('created_at' ,'<=', $to);
+        }
+
+        if($search){
+            $records->where(function($query) use ($searchableCols, $search){
+                foreach($searchableCols as $col){
+                    $query->orWhere($col, 'like' , "%$search%");
+                }
+            });
+        }
+
+        if($dir){
+            if(in_array($sort, $orderableCols)){
+                $orderBy = $sort;
+            }else{
+                $orderBy = $orderableCols[$sort];
+            }
+            $records->orderBy($orderBy, $dir);
+        }else{
+            $records->latest();
+        }
+
+        if($withTrash){
+            $records->withTrashed();
+        }
+
+        $recordsFiltered = $records->count();
+        $records = $records->limit($length)->offset($start)->get();
+        $message = 'Success';
+        $response = 200;
+        if($records->count() == 0){
+            $message = 'No data available.';
+            $response = 404;
+        }
+
+        #store in cache
+        Cache::put('data', $records, now()->addMinutes(2));
+
+        return [
+            'message' => $message,
+            'response' => $response,
             'recordsTotal' => $recordsTotal,
             'data' => $records,
         ];

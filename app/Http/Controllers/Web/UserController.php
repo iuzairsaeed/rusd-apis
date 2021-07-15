@@ -126,6 +126,7 @@ class UserController extends Controller
             'is_active' => 'required|boolean',
             'roles' => 'required'
         ]);
+        dd($this->model->getModel()->fillable);
         $this->model->update($request->only($this->model->getModel()->fillable), $user);
         $user->syncRoles($request->input('roles'));
         // $updateUser->assignRole();

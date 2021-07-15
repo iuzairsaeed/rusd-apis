@@ -16,4 +16,6 @@ class Plan extends Model
         'deleted_at' => 'datetime:'.Constant::DATE_FORMAT,
     ];
 
+    protected $hidden = ['deleted_at' , 'created_at', 'updated_at'];
+
 }

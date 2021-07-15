@@ -19,11 +19,6 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
             ],
             [
-                'name' => 'PREMIUM_COST',
-                'value' => 1,
-                'type' => 'number',
-            ],
-            [
                 'name' => 'TERMS_CONDITIONS',
                 'value' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque dignissim iaculis. Etiam quis tempor metus, in facilisis urna. Fusce sit amet consequat est.</p>
                             <ul>

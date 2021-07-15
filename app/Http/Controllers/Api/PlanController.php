@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Repositories\ApiRepository;
+use App\Repositories\Repository;
 use App\Models\Plan;
+use Auth;
 
 class PlanController extends Controller
 {
@@ -17,7 +18,7 @@ class PlanController extends Controller
         $this->middleware('permission:plan-create', ['only' => ['create','store']]);
         $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
-        $this->model = new ApiRepository($model);
+        $this->model = new Repository($model);
     }
 
     /**
@@ -25,7 +26,7 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Plan $plan, Request $request)
+    public function index(Request $request)
     {
         $orderableCols = [];
         $searchableCols = [];
@@ -41,8 +42,12 @@ class PlanController extends Controller
         $whereHas = null;
         $withTrash = false;
 
-        $data = $this->model->getData($request, $with, $withTrash, $withCount, $whereHas, $withSums, $withSumsCol, $addWithSums, $whereChecks,
+        $data = $this->model->getDataApi($request, $with, $withTrash, $withCount, $whereHas, $withSums, $withSumsCol, $addWithSums, $whereChecks,
                                         $whereOps, $whereVals, $searchableCols, $orderableCols, $currentStatus);
+                                    
+        
+        // dd($data);
+
         return response($data, 200);
     }
 

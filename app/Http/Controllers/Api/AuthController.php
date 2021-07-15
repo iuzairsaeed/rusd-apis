@@ -37,6 +37,7 @@ class AuthController extends Controller
                 'street' => $user->street,
                 'city' => $user->city,
                 'zipcode' => $user->zipcode,
+                'status' => $user->status,
             ],
             'token' => $token,
             'expiration_minutes' => (int)config('sanctum.expiration')
@@ -84,6 +85,8 @@ class AuthController extends Controller
         // Assigning Role ( Normal ) to user
         $role = Role::where('name', 'normal')->first();
         $user->assignRole([$role->id]);
+
+        $user->setStatus(Pending());
 
         return $this->response($user, 201, 'You have registered successfully');
     }

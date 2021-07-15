@@ -166,7 +166,6 @@ class ApiRepository implements RepositoryInterface
         return [
             'message' => $message,
             'response' => $response,
-            'recordsFiltered' => $recordsFiltered,
             'recordsTotal' => $recordsTotal,
             'data' => $records,
         ];
