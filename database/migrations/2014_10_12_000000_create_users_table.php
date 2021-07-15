@@ -15,13 +15,24 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('email')->unique();
-            $table->integer('role_id')->default(1); /// 1 role id app user 
+            $table->string('name');
+            $table->string('username')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('form_step')->default(0);
             $table->string('password');
             $table->rememberToken();
+            $table->string('device_token')->nullable();
+            $table->string('avatar')->default('no-image.png');
+            $table->string('phone');
+            $table->string('country');
+            $table->date('dob');
+            $table->enum('gender', ['male','female'])->nullanle();
+            $table->string('address')->nullanle();
+            $table->string('street')->nullanle();
+            $table->string('city')->nullanle();
+            $table->string('zipcode')->nullanle();
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

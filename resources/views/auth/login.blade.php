@@ -1,68 +1,81 @@
-@extends('layouts.master')
-
+@extends('layouts.app')
 
 @section('content')
-<div class="container-fluid h-100vh">
-    <div class="row h-100">
-          <div class="col-sm-5 cover pt-6 pb-6 bg-100 text-center shadow-lg h-sm-322px" style="background-image: url('images/assets/login/asset34.png')">
-          <img src="images/assets/login/asset33.png" class="img-fluid col-sm-6 position-absolute lefttop0 m-auto maxwidth400px">
-          </div>  
-
-          <div class="col-sm-7 pt-5 pb-5 align-middle align-items-center m-auto">
-              <div class="text-center maxwidth350px m-auto pt-2 pb-2">
-                <div class="text-left mb-4"> <a href="{{url('/')}}"><img src="images/assets/login/asset37.png" class="img-fluid col-sm-1 col-1 p-0">
-                </a></div>
-                  <h4 class="helveticabold-font">Log In</h4>
-                 
-                 <form method="POST" action="{{ route('login') }}">
-                     @csrf
-
-                 <div class="text-left mt-4">
-                    <label class="text-uppercase fontsize11px greycolor helveticafont">Email</label>
-                    <div class="pt-2 pb-2 pl-4 pr-4 bg-grey borderradius30px border focus"><img src="images/assets/login/asset39.png">
-                      <input type="email" id="email" name="email" class="border-0 bg-transparent fontsize14px helveticafont pt-2 pb-2 pl-2 col-sm-11 col-11 @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" autocomplete="email" autofocus required>
-
-                       @error('email')
-                                    <span class="invalid-feedback position-absolute mt-2" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+<section id="login">
+    <div class="container-fluid">
+        <div class="row full-height-vh">
+            <div class="col-12 d-flex align-items-center justify-content-center gradient-crystal-clear">
+                <div class="card px-4 py-2 box-shadow-2 width-400">
+                    <div class="card-header text-center pb-0">
+                        <img src="/favicon.ico" alt="logo" class="main-logo mb-2 mt-3 width-300 height-100">
                     </div>
-                             
-                 </div>
-
-                 <div class="text-left mt-3">
-                    <label class="text-uppercase fontsize11px helveticafont greycolor">Password </label>
-                    <a href="javascript:void(0)" class="float-right colorblack fontsize11px pt-2 text-decoration-none" onclick="myFunction()">Show</a>
-                    <div class="pt-2 pb-2 pl-4 pr-4 bg-grey borderradius30px border focus"><img src="images/assets/login/asset38.png">
-                      <input type="password" id="password" name="password" placeholder="Password" class="border-0 bg-transparent fontsize14px helveticafont pt-2 pb-2 pl-2 col-sm-11 col-11 @error('password') is-invalid @enderror" required autocomplete="current-password">
-
-                       @error('password')
-                                    <span class="invalid-feedback position-absolute mt-2" role="alert">
-                                        <strong>{{ $message }}</strong>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <br />
+                            <form method="POST" action="{{ route('login') }}">
+                            @csrf
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="ft-at-sign"></i></span>
+                                            </div>
+                                            <input type="username" class="form-control form-control-lg{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" id="username" placeholder="Username" required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($errors->has('username'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
-                                @enderror
-                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-key"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control form-control-lg{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="inputPass" placeholder="Password" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 ml-5">
+                                                <input type="checkbox" class="custom-control-input" name="remember" id="remember">
+                                                <label class="custom-control-label float-left" for="remember">Remember Me</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="text-center col-md-12">
+                                        <button type="submit"style="background-color: #004d40;"  class="btn btn 900 px-4 py-2 text-uppercase white font-small-4 box-shadow-2 border-0">Login</button>
+                                    </div>
+                                </div>
                               
-                 </div>
-
-                 <div class="mt-2 text-right"><a href="{{url('/forgotpassword')}}" class="colorblack text-capitalize fontsize12px text-decoration-none">forgot Password?</a></div>
-                    
-                  <div class="mt-4"> <button type="submit" class="btn bgyellow-gradiant mt-3 border borderyellow colorwhite borderradius30px helveticabold-font col-sm-12 fontsize14px pt-3 pb-3 nexthover">Log In</button></div>
-
-                  <div class="d-flex mt-3">
-                    <div class="col-sm-6 pl-1 pr-1"><div class="bgyellow-gradiant borderradius30px" style="padding: 1px;"><div class="bg-white borderradius30px p-1"><a href="#"><img src="images/assets/login/asset41.png" class="img-fluid col-sm-5 col-5 pt-1 pb-1"></a></div></div>
-                  </div>
-                  <div class="col-sm-6 pl-1 pr-1"><div class="bgyellow-gradiant borderradius30px" style="padding: 1px;"><div class="bg-white borderradius30px p-1"><a href="#"><img src="images/assets/login/asset40.png" class="img-fluid col-sm-5 pt-1 pb-1 col-5"></a></div> </div></div>
-              </div>
-
-                  </form>
-
-                  <div class="text-center mt-4"><p class="greycolor fontsize12px">Don't have an account? 
-                    <a href="{{url('signup')}}" class="colorblack helveticafont text-decoration-none">Sign up</a></p></div>
-
-              </div>
-          </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer grey darken-1">
+                        <div class="text-center">
+                            <p class="font-small-2">All rights Reserved © RUSD Investment Bank</p>
+                            @if (Route::has('password.request'))
+                                <div class="text-center mb-1">Forgot Password? <a href="{{ route('password.request') }}"><b>Reset</b></a></div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     </div>
-</div>
-@stop
+</section>
+@endsection

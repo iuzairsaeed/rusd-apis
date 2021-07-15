@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Constant;
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable
+{
+    use SoftDeletes, HasApiTokens, Notifiable, HasRoles;
+
+    protected $guarded = [];
+
+    protected $fillable = [
+        'name',
+        'username',
+        'email',
+        'password',
+        'phone',
+        'gender',
+        'country',
+        'dob',
+        'address',
+        'street',
+        'city',
+        'zipcode',
+        'is_active'
+    ];
+
+    protected $hidden = [
+        'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'created_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
+    ];
+
+    protected $with = [
+
+    ];
+
+    public function getStatusAttribute()
+    {
+        return $this->status()->name;
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        $path = avatarsPath();
+        return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';
+    }
+
+    public function sendApiEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * Route notifications for the FCM channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForFcm($notification)
+    {
+        return $this->device_token;
+    }
+
+}

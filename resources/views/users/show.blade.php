@@ -1,0 +1,134 @@
+@extends('layouts.app')
+@section('content')
+<section id="user-area">
+    <a class="btn btn-primary" href="/users"><i class="fa fa-reply"></i> Go Back</a>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="card-title-wrap">
+                        <h4 class="card-title">User Detail</h4>
+                    </div>
+                </div>
+                <div class="card-body px-4">
+                    <form action="/users/{{$user->id}}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Full Name</label>
+                                        <p>{{ $user->name??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Username</label>
+                                        <p>{{ $user->username??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Email</label>
+                                        <p>{{ $user->email??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Phone</label>
+                                        <p>{{ $user->contact_number??'-' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Avatar</label>
+                     
+                                        <p><img style=" width: 50px; height: 50px;" src=" {{  url('storage/'.$user->avatar)}}" alt=""> </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Account Status</label>
+                                        <div class="input-group">
+                                            <div class="custom-control custom-radio display-inline-block pr-3">
+                                                <input type="radio" class="custom-control-input" name="is_active" id="is_active1" value='1' {{($user->is_active == 1) ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="is_active1">Active</label>
+                                            </div>
+                                            <div class="custom-control custom-radio display-inline-block">
+                                                <input type="radio" class="custom-control-input" name="is_active" id="is_active2" value='0' {{($user->is_active == 0) ? 'checked' :'' }}>
+                                                <label class="custom-control-label" for="is_active2">Deactive</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="label-control">Role</label>
+                                        <select name="roles[]" id="role" value="{{old('role')}}" class="form-control border-primary" >
+                                            @foreach($roles as $r)
+                                                <option value="{{$r}}"  {{!isset($user->roles[0]) ? "" : ($user->roles[0]->name == $r ? "selected" : "")}}>{{$r}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-actions left">
+                                        <a href="{{route('dashboard')}}">
+                                            <button type="button" class="btn btn-danger mr-1">
+                                                <i class="icon-trash"></i> Cancel
+                                            </button>
+                                        </a>
+                                        <button type="submit" class="btn btn-raised btn-success">
+                                            <i class="icon-check"></i> Update User
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@section('afterScript')
+<script>
+    $('#dTable').DataTable({
+        order: [0 , 'desc'],
+        columnDefs: [
+            { width: "10%", "targets": [-1, 0] },
+            { orderable: false, targets: [-2, -1] }
+        ]
+    });
+
+    $('#role').select2({
+        placeholder: "Search Role",
+        allowClear: true,
+        ajax: {
+            url: "{{ route('role.get-role') }}",
+            type: "GET",
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    search: params.term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true
+        }
+    });
+</script>
+
+
+@endsection

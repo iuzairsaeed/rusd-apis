@@ -4,6 +4,10 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Exception;
+use Request;
+use Illuminate\Auth\AuthenticationException;
+use Response;
 
 class Handler extends ExceptionHandler
 {
@@ -48,8 +52,41 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
+
     public function render($request, Throwable $exception)
     {
+        // if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        //     return response()->json(['User have not permission for this page access.']);
+        // }
+    
         return parent::render($request, $exception);
+    }
+    // public function render($request, Throwable $exception)
+    // {
+    //     if($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+    //         if ($request->expectsJson()) {
+    //             return response(['message' => 'Resource Not Found!'], 404);
+    //         }
+    //         return redirect('dashboard')->with('error','Resource Not Found!');
+    //     }
+    //     return parent::render($request, $exception);
+    // }
+
+    protected function invalidJson($request, \Illuminate\Validation\ValidationException $exception)
+    {
+        if ($request->expectsJson()) {
+            foreach($exception->errors() as $error){
+                foreach ($error as $message) {
+                    return response(['message' => $message], $exception->status);
+                }
+            }
+        }
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+            ? response()->json(['message' => 'Please login to perform this action.'], 401)
+            : redirect()->guest(route('login'));
     }
 }
