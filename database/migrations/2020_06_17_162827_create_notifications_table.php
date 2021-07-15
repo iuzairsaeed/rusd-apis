@@ -22,6 +22,7 @@ class CreateNotificationsTable extends Migration
             $table->string('click_action');
             $table->string('read');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
