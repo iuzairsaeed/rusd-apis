@@ -10,7 +10,6 @@ class Notification extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [
         'user_id', 'title', 'body', 'click_action','data_id'
    ];
