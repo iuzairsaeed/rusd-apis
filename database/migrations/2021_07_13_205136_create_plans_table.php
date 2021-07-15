@@ -17,6 +17,7 @@ class CreatePlansTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });

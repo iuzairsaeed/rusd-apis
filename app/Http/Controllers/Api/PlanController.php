@@ -29,9 +29,9 @@ class PlanController extends Controller
     {
         $orderableCols = [];
         $searchableCols = [];
-        $whereChecks = [];
-        $whereOps = [];
-        $whereVals = [];
+        $whereChecks = ['type'];
+        $whereOps = ['='];
+        $whereVals = [$request->type];
         $with = [];
         $withCount = [];
         $currentStatus = [];

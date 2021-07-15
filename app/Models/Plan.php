@@ -16,6 +16,4 @@ class Plan extends Model
         'deleted_at' => 'datetime:'.Constant::DATE_FORMAT,
     ];
 
-    
-    
 }

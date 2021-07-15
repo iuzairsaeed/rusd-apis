@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 use DB;
 
-class ApiRepository implements ApiRepositoryInterface
+class ApiRepository implements RepositoryInterface
 {
     // model property on class instances
     protected $model;
