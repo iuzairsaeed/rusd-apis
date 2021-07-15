@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Notification;
 use App\Repositories\ApiRepository;
+use App\Models\Plan;
 
-class NotificationController extends Controller
+class PlanController extends Controller
 {
     protected $model;
 
-    public function __construct(Notification $model)
+    public function __construct(Plan $model)
     {
+        $this->middleware('permission:plan-list|plan-create|plan-edit|plan-delete', ['only' => ['index','show','getList']]);
+        $this->middleware('permission:plan-create', ['only' => ['create','store']]);
+        $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
         $this->model = new ApiRepository($model);
     }
 
@@ -21,14 +25,14 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Notification $notification, Request $request)
+    public function index(Plan $plan, Request $request)
     {
         $orderableCols = [];
         $searchableCols = [];
         $whereChecks = [];
         $whereOps = [];
         $whereVals = [];
-        $with = ['user'];
+        $with = [];
         $withCount = [];
         $currentStatus = [];
         $withSums = [];

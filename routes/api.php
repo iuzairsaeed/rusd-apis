@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Api'], function () {
         });
 
         Route::resource('notification', 'NotificationController');
+        Route::resource('plan', 'PlanController');
     });
 
 });
