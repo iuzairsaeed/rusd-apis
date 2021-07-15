@@ -14,15 +14,23 @@ class PlanTableSeeder extends Seeder
     {
         Plan::insert([
             [
-                'title' => 'Money Market',
+                'name' => 'Money Market',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque dignissim iaculis. Etiam quis tempor metus, in facilisis urna. Fusce sit amet consequat est.',
+                'type' => 'investment',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Umrah',
+                'name' => 'Sukuk',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque dignissim iaculis. Etiam quis tempor metus, in facilisis urna. Fusce sit amet consequat est.',
+                'type' => 'dream',
                 'created_at' => now(),
-            ]
+            ],
+            [
+                'name' => 'Real Estate',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque dignissim iaculis. Etiam quis tempor metus, in facilisis urna. Fusce sit amet consequat est.',
+                'type' => 'investment',
+                'created_at' => now(),
+            ],
         ]);
     }
 }
