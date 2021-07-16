@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\Constant;
 use App\Models\Notification;
-use App\Models\SubmitChallenge;
 use App\Observers\UserObserver;
 use App\Console\Commands\ModelMakeCommand;
 use Illuminate\Support\ServiceProvider;

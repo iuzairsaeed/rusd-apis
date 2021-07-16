@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\School;
 
 class CheckRole
 {
@@ -16,6 +15,7 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role = '')
     {
+        
         $user = $request->user();
         $disabledMessage = 'Your account has been disabled. Please contact support.';
         if($user && $user->is_active)

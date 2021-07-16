@@ -10,8 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Constant;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\ModelStatus\HasStatuses;
+use App\Notifications\VerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
 
