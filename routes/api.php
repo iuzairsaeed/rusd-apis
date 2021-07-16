@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
-    Route::get('inquery', function (Request $request) {
-        return $request;
-    });
 
     Route::get('email/verify/{id}', 'AuthController@verify')->name('verificationapi.verify');
     Route::get('email/resend', 'AuthController@resend')->name('verificationapi.resend');

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
 use App\Models\Plan;
-use Auth;
 
 class PlanController extends Controller
 {
@@ -15,9 +14,9 @@ class PlanController extends Controller
     public function __construct(Plan $model)
     {
         // $this->middleware('permission:plan-list|plan-create|plan-edit|plan-delete', ['only' => ['index','show','getList']]);
-        $this->middleware('permission:plan-create', ['only' => ['create','store']]);
-        $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:plan-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
         $this->model = new Repository($model);
     }
 
