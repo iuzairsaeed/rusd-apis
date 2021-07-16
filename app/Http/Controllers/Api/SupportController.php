@@ -5,18 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
-use App\Models\Plan;
+use App\Http\Requests\SupportRequest;
+use App\Models\Support;
 
-class PlanController extends Controller
+class SupportController extends Controller
 {
+
     protected $model;
 
-    public function __construct(Plan $model)
+    public function __construct(Support $model)
     {
-        // $this->middleware('permission:plan-list|plan-create|plan-edit|plan-delete', ['only' => ['index','show','getList']]);
-        $this->middleware('permission:plan-create', ['only' => ['create','store']]);
-        $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:suport-list|suport-create|suport-edit|suport-delete', ['only' => ['index','show','getList']]);
+        // $this->middleware('permission:suport-create', ['only' => ['create','store']]);
+        $this->middleware('permission:suport-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:suport-delete', ['only' => ['destroy']]);
         $this->model = new Repository($model);
     }
 
@@ -25,29 +27,9 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $orderableCols = [];
-        $searchableCols = [];
-        $whereChecks = ['type'];
-        $whereOps = ['='];
-        $whereVals = [$request->type];
-        $with = [];
-        $withCount = [];
-        $currentStatus = [];
-        $withSums = [];
-        $withSumsCol = [];
-        $addWithSums = [];
-        $whereHas = null;
-        $withTrash = false;
-
-        $data = $this->model->getDataApi($request, $with, $withTrash, $withCount, $whereHas, $withSums, $withSumsCol, $addWithSums, $whereChecks,
-                                        $whereOps, $whereVals, $searchableCols, $orderableCols, $currentStatus);
-                                    
-        
-        // dd($data);
-
-        return response($data, 200);
+        //
     }
 
     /**
@@ -57,7 +39,7 @@ class PlanController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -66,9 +48,14 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupportRequest $request)
     {
-        //
+        // try {
+            $response = $this->model->create($request->all());
+            return response(['message'=>'Submitted Successfully!'],200);
+        // } catch (\Throwable $th) {
+        //     return $th->getMessage();
+        // }
     }
 
     /**

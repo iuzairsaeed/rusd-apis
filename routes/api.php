@@ -5,8 +5,8 @@ use Illuminate\Http\Request;
 
 Route::group(['namespace' => 'Api'], function () {
 
-    Route::get('email/verify/{id}', 'AuthController@verify')->name('verificationapi.verify');
-    Route::get('email/resend', 'AuthController@resend')->name('verificationapi.resend');
+    // Route::get('email/verify/{id}', 'AuthController@verify')->name('verificationapi.verify');
+    // Route::get('email/resend', 'AuthController@resend')->name('verificationapi.resend');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login');
@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::put('forgotPassword', 'AuthController@forgotPassword');
     });
 
+    // After Login 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::group(['prefix' => 'auth'], function () {
             Route::get('user', 'AuthController@user');
@@ -29,5 +30,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::resource('notification', 'NotificationController');
         Route::resource('plan', 'PlanController');
     });
+
+    // Without Auth
+    Route::resource('support', 'SupportController');
 
 });
