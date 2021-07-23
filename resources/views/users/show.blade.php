@@ -15,6 +15,7 @@
                         @method('PUT')
                         @csrf
                         <div class="form-body">
+
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
@@ -34,13 +35,39 @@
                                         <p>{{ $user->email??'-' }}</p>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="text-bold-700">Phone</label>
-                                        <p>{{ $user->contact_number??'-' }}</p>
+                                        <p>{{ $user->phone??'-' }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Gender</label>
+                                        <p>{{ Str::ucfirst($user->gender)??'-' }}</p>
                                     </div>
                                 </div>
 
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Country</label>
+                                        <p>{{ Str::ucfirst($user->country)??'-' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Date of Birth</label>
+                                        <p>{{ $user->dob??'-' }}</p>
+                                    </div>
+                                </div>
+                                
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="text-bold-700">Avatar</label>
@@ -48,6 +75,38 @@
                                         <p><img style=" width: 50px; height: 50px;" src=" {{  url('storage/'.$user->avatar)}}" alt=""> </p>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Address</label>
+                                        <p>{{ $user->address??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Street</label>
+                                        <p>{{ $user->street??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">City</label>
+                                        <p>{{ $user->city??'-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Zip Code</label>
+                                        <p>{{ $user->zipcode??'-' }}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="text-bold-700">Account Status</label>
@@ -63,8 +122,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="text-bold-700">Profile Status</label>
+                                        <div class="input-group">
+                                            <div class="custom-control custom-radio display-inline-block pr-3">
+                                                <input type="radio" class="custom-control-input" name="status" id="status1" value='1' {{($user->status == Pending() ) ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="status1">Pending</label>
+                                            </div>
+                                            <div class="custom-control custom-radio display-inline-block">
+                                                <input type="radio" class="custom-control-input" name="status" id="status2" value='0' {{($user->status == Completed() ) ? 'checked' :'' }}>
+                                                <label class="custom-control-label" for="status2">Completed</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <div class="col-6">
+                                <div class="col-lg-7 col-sm-12">
                                     <div class="form-group">
                                         <label class="label-control">Role</label>
                                         <select name="roles[]" id="role" value="{{old('role')}}" class="form-control border-primary" >

@@ -16,6 +16,18 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
 
+    protected $hidden = [
+        'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_admin' => 'boolean',
+        'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'created_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
+    ];
+
     protected $guarded = [];
 
     protected $fillable = [
@@ -32,18 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'city',
         'zipcode',
         'is_active'
-    ];
-
-    protected $hidden = [
-        'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'is_admin' => 'boolean',
-        'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
-        'created_at' => 'datetime:'.Constant::DATE_FORMAT,
-        'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
     ];
 
     protected $with = [
