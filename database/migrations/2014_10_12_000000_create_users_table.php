@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->string('street')->nullanle();
             $table->string('city')->nullanle();
             $table->string('zipcode')->nullanle();
+            $table->string('about_me')->nullanle();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
