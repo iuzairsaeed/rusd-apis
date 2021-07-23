@@ -22,6 +22,8 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $user->update($request->all());
+        $user->setStatus(Completed());
+        $user['status'] = $user->status;
 
         return response([
             'message' => 'Profile has been updated.',

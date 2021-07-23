@@ -10,10 +10,23 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Constant;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\ModelStatus\HasStatuses;
+use App\Notifications\VerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
+
+    protected $hidden = [
+        'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_admin' => 'boolean',
+        'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'created_at' => 'datetime:'.Constant::DATE_FORMAT,
+        'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
+    ];
 
     protected $guarded = [];
 
@@ -31,18 +44,6 @@ class User extends Authenticatable
         'city',
         'zipcode',
         'is_active'
-    ];
-
-    protected $hidden = [
-        'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'is_admin' => 'boolean',
-        'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
-        'created_at' => 'datetime:'.Constant::DATE_FORMAT,
-        'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
     ];
 
     protected $with = [
