@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Artisan::call('cache:forget spatie.permission.cache');
+        Artisan::call('cache:clear');
+
         $this->call(SettingsTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(RoleTableSeeder::class);
