@@ -18,7 +18,18 @@ class CreateCitizensTable extends Migration
             '1-5 years',
             'Over 5',
         ];
-        Schema::create('citizens', function (Blueprint $table) use ($experience) {
+
+        $fund = [
+            'Allowance/ Spousal Income',
+            'Disability/ Severance/ Umemployment',
+            'Income from Employment',
+            'Inheritance Gift',
+            'Market Trading Profit',
+            'Pension/ Government Retirement',
+            'Benefit',
+        ]; 
+
+        Schema::create('citizens', function (Blueprint $table) use ($experience, $fund) {
             $table->id();
             $table->string('country');
             $table->double('nic');
@@ -27,15 +38,7 @@ class CreateCitizensTable extends Migration
             $table->boolean('tax_payer')->default(false);    
             $table->bigInteger('tax_no')->nullable();    
             $table->integer('net_income');    
-            $table->enum('source_of_fund', [
-                'Allowance/ Spousal Income',
-                'Disability/ Severance/ Umemployment',
-                'Income from Employment',
-                'Inheritance Gift',
-                'Market Trading Profit',
-                'Pension/ Government Retirement',
-                'Benefit',
-            ]);    
+            $table->enum('source_of_fund', $fund );    
             $table->enum('bank_deposit', $experience);
             $table->enum('listed_stocks', $experience);
             $table->enum('private_equities', $experience);
