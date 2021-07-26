@@ -7,6 +7,12 @@ Route::group(['namespace' => 'Web'], function () {
     Auth::routes(['register'=>false, 'reset'=>false]);
 
     Route::group(['middleware' => 'auth' ], function () {
+        
+        Route::post('registerUser','Auth\RegisterController@register')->name('registerUser');
+        Route::resource('users','UserController');
+        Route::get('usersList', 'UserController@getList')->name('users.getList');
+        Route::get('users-dropdown-list', 'UserController@getUser')->name('users.get-user');
+
         Route::get('dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('dashboard/list', 'DashboardController@getList')->name('dashboard.getList');
 
@@ -25,16 +31,7 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
 
         Route::get('/getCustomer/{value}','UserController@getCustomer');
-    });
-
-    
-    
-    
-    Route::group(['middleware' => ['auth']], function () {
-        Route::post('registerUser','Auth\RegisterController@register')->name('registerUser');
-        Route::resource('users','UserController');
-        Route::get('usersList', 'UserController@getList')->name('users.getList');
-        Route::get('users-dropdown-list', 'UserController@getUser')->name('users.get-user');
+        
     });
    
 });
