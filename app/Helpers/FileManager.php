@@ -42,3 +42,18 @@ function avatarsPath()
     return 'avatars/';
 }
 
+function nicPath()
+{
+    return 'nic/';
+}
+
+function passportPath()
+{
+    return 'passport/';
+}
+
+function billPath()
+{
+    return 'bill/';
+}
+
