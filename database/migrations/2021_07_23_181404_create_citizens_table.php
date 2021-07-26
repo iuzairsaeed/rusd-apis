@@ -38,7 +38,7 @@ class CreateCitizensTable extends Migration
             $table->date('expiry_date');    
             $table->bigInteger('passport_no')->unique();    
             $table->boolean('tax_payer')->nullable()->default(false);    
-            $table->bigInteger('tax_no')->nullable();    
+            $table->bigInteger('tax_no')->nullable()->unique();    
             $table->bigInteger('net_income')->nullable();    
             $table->enum('source_of_fund', $fund )->nullable();    
             $table->enum('bank_deposit', $experience)->nullable();

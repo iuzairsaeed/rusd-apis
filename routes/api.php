@@ -32,7 +32,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::resource('plan', 'PlanController');
         
         Route::resource('citizen', 'CitizenController');
-        // Route::resource('citizen/{id}/upload', 'CitizenController');
+
+        Route::resource('securityQuestion', 'SecurityQuestionController');
+
     });
 
     // Without Auth

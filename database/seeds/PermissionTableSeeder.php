@@ -40,6 +40,11 @@ class PermissionTableSeeder extends Seeder
             'citizen-create',
             'citizen-edit',
             'citizen-delete',
+            'SecurityQuestion-getList',
+            'SecurityQuestion-list',
+            'SecurityQuestion-create',
+            'SecurityQuestion-edit',
+            'SecurityQuestion-delete',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
