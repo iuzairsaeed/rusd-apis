@@ -34,9 +34,9 @@ class CreateCitizensTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('country');
-            $table->bigInteger('nic');
+            $table->bigInteger('nic')->unique();
             $table->date('expiry_date');    
-            $table->bigInteger('passport_no');    
+            $table->bigInteger('passport_no')->unique();    
             $table->boolean('tax_payer')->nullable()->default(false);    
             $table->bigInteger('tax_no')->nullable();    
             $table->bigInteger('net_income')->nullable();    

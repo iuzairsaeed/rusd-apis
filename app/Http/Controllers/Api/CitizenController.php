@@ -71,7 +71,10 @@ class CitizenController extends Controller
             $data = $request->except(['step_no']);
             $data["user_id"] = auth()->id();
             $response = $this->model->create($data);
-            return response(['message'=>'Submitted Successfully!'],200);
+            return response([
+                'message'=>'Submitted Successfully!',
+                'data'=>$response
+            ],200);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

@@ -72,7 +72,7 @@
                                     <div class="form-group">
                                         <label class="text-bold-700">Avatar</label>
                      
-                                        <p><img style=" width: 50px; height: 50px;" src=" {{  url('storage/'.$user->avatar)}}" alt=""> </p>
+                                        <p><img style=" width: 50px; height: 50px;" src=" {{  url($user->avatar)}}" alt=""> </p>
                                     </div>
                                 </div>
                             </div>

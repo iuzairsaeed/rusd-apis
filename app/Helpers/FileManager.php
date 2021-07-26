@@ -39,21 +39,21 @@ function deleteFile(string $fileName, string $uploadPath)
 
 function avatarsPath()
 {
-    return 'avatars/';
+    return 'storage/avatars/';
 }
 
 function nicPath()
 {
-    return 'nic/';
+    return 'storage/nic/';
 }
 
 function passportPath()
 {
-    return 'passport/';
+    return 'storage/passport/';
 }
 
 function billPath()
 {
-    return 'bill/';
+    return 'storage/bill/';
 }
 
