@@ -4,9 +4,23 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use App\Repositories\Repository;
+use App\Models\Citizen;
 
 class CitizenController extends Controller
 {
+    protected $model;
+
+    public function __construct(Citizen $model)
+    {
+        $this->middleware('permission:citizen-list|citizen-create|citizen-edit|citizen-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:citizen-create', ['only' => ['create','store']]);
+        $this->middleware('permission:citizen-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:citizen-delete', ['only' => ['destroy']]);
+        $this->model = new Repository($model);
+    }
+
     /**
      * Display a listing of the resource.
      *

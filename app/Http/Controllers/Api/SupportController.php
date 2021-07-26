@@ -50,12 +50,12 @@ class SupportController extends Controller
      */
     public function store(SupportRequest $request)
     {
-        // try {
+        try {
             $response = $this->model->create($request->all());
             return response(['message'=>'Submitted Successfully!'],200);
-        // } catch (\Throwable $th) {
-        //     return $th->getMessage();
-        // }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     /**

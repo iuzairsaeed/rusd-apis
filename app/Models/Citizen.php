@@ -18,6 +18,28 @@ class Citizen extends Model
 
     protected $hidden = ['deleted_at'];
 
-    
+    protected $fillable = [
+        'user_id',
+        'country',
+        'nic',
+        'expiry_date',
+        'passport_no',
+        'tax_payer',
+        'tax_no',
+        'net_income',
+        'source_of_fund',
+        'bank_deposit',
+        'listed_stocks',
+        'private_equities',
+        'real_estate',
+        'passport_scan',
+        'nic_scan',
+        'bill_scan',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

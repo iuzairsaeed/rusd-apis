@@ -20,20 +20,18 @@ Route::group(['namespace' => 'Api'], function () {
             Route::get('user', 'AuthController@user');
             Route::put('changePassword', 'AuthController@changePassword');
             Route::post('logout', 'AuthController@logout');
-            
-            Route::group(['prefix' => 'user'], function () {
-                Route::put('updateProfile', 'UserController@updateProfile');
-                Route::put('updateAvatar', 'UserController@updateAvatar');
-            });
-
-            Route::resource('notification', 'NotificationController');
-    
-            Route::resource('plan', 'PlanController');
-            
-            Route::resource('citizen', 'CitizenController');
-
         });
 
+        Route::group(['prefix' => 'user'], function () {
+            Route::put('updateProfile', 'UserController@updateProfile');
+            Route::put('updateAvatar', 'UserController@updateAvatar');
+        });
+
+        Route::resource('notification', 'NotificationController');
+
+        Route::resource('plan', 'PlanController');
+        
+        Route::resource('citizen', 'CitizenController');
     });
 
     // Without Auth

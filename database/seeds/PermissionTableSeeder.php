@@ -35,6 +35,11 @@ class PermissionTableSeeder extends Seeder
             'notifications-create',
             'notifications-edit',
             'notifications-delete',
+            'citizen-getList',
+            'citizen-list',
+            'citizen-create',
+            'citizen-edit',
+            'citizen-delete',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

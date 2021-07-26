@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use App\Repositories\Repository;
-use App\Models\Plan;
+use App\Http\Requests\CitizenRequest;
+use App\Models\Citizen;
 
-class PlanController extends Controller
+class CitizenController extends Controller
 {
     protected $model;
 
-    public function __construct(Plan $model)
+    public function __construct(Citizen $model)
     {
-        // $this->middleware('permission:plan-list|plan-create|plan-edit|plan-delete', ['only' => ['index','show','getList']]);
-        $this->middleware('permission:plan-create', ['only' => ['create','store']]);
-        $this->middleware('permission:plan-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:plan-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:citizen-list|citizen-create|citizen-edit|citizen-delete', ['only' => ['index','show']]);
+        // $this->middleware('permission:citizen-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:citizen-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:citizen-delete', ['only' => ['destroy']]);
         $this->model = new Repository($model);
     }
 
@@ -25,13 +27,13 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Citizen $request)
     {
         $orderableCols = [];
         $searchableCols = [];
-        $whereChecks = ['type'];
+        $whereChecks = ['user_id'];
         $whereOps = ['='];
-        $whereVals = [$request->type];
+        $whereVals = [auth()->id()];
         $with = [];
         $withCount = [];
         $currentStatus = [];
@@ -63,9 +65,16 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CitizenRequest $request)
     {
-        //
+        try {
+            $data = $request->except(['step_no']);
+            $data["user_id"] = auth()->id();
+            $response = $this->model->create($data);
+            return response(['message'=>'Submitted Successfully!'],200);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     /**
@@ -97,9 +106,15 @@ class PlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CitizenRequest $request, Citizen $citizen)
     {
-        //
+        try {
+            $data = $request->all();
+            $this->model->update($data, $citizen);
+            return response(['message'=>'Submitted Successfully!'],200);
+        } catch (\Exception $th) {
+            return $th->getMessage();
+        }
     }
 
     /**

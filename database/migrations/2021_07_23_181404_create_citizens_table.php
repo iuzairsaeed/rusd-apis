@@ -20,6 +20,7 @@ class CreateCitizensTable extends Migration
         ];
 
         $fund = [
+            'Property',
             'Allowance/ Spousal Income',
             'Disability/ Severance/ Umemployment',
             'Income from Employment',
@@ -31,22 +32,24 @@ class CreateCitizensTable extends Migration
 
         Schema::create('citizens', function (Blueprint $table) use ($experience, $fund) {
             $table->id();
+            $table->foreignId('user_id');
             $table->string('country');
-            $table->double('nic');
+            $table->bigInteger('nic');
             $table->date('expiry_date');    
             $table->bigInteger('passport_no');    
-            $table->boolean('tax_payer')->default(false);    
+            $table->boolean('tax_payer')->nullable()->default(false);    
             $table->bigInteger('tax_no')->nullable();    
-            $table->integer('net_income');    
-            $table->enum('source_of_fund', $fund );    
-            $table->enum('bank_deposit', $experience);
-            $table->enum('listed_stocks', $experience);
-            $table->enum('private_equities', $experience);
-            $table->enum('real_estate', $experience);
-            $table->string('passport_scan')->default('no-image.png');
-            $table->string('nic_scan')->default('no-image.png');
-            $table->string('bill_scan')->default('no-image.png');
+            $table->bigInteger('net_income')->nullable();    
+            $table->enum('source_of_fund', $fund )->nullable();    
+            $table->enum('bank_deposit', $experience)->nullable();
+            $table->enum('listed_stocks', $experience)->nullable();
+            $table->enum('private_equities', $experience)->nullable();
+            $table->enum('real_estate', $experience)->nullable();
+            $table->string('passport_scan')->nullable()->default('no-image.png');
+            $table->string('nic_scan')->nullable()->default('no-image.png');
+            $table->string('bill_scan')->nullable()->default('no-image.png');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
