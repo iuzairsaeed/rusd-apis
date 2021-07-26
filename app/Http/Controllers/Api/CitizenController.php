@@ -113,6 +113,22 @@ class CitizenController extends Controller
     {
         try {
             $data = $request->all();
+            if($request->hasFile('nic_scan')){
+                $deleteFile = $citizen->getAttributes()['nic_scan'] != 'no-image.png' ? $citizen->nic_scan : null;
+                $file_name = uploadFile($request->nic_scan, nicPath(), $deleteFile);
+                $data['nic_scan'] = $file_name;
+            }
+            if($request->hasFile('passport_scan')){
+                $deleteFile = $citizen->getAttributes()['passport_scan'] != 'no-image.png' ? $citizen->passport_scan : null;
+                $file_name = uploadFile($request->passport_scan, passportPath(), $deleteFile);
+                $data['passport_scan'] = $file_name;
+            }
+            if($request->hasFile('bill_scan')){
+                $deleteFile = $citizen->getAttributes()['bill_scan'] != 'no-image.png' ? $citizen->bill_scan : null;
+                $file_name = uploadFile($request->bill_scan, billPath(), $deleteFile);
+                $data['bill_scan'] = $file_name;
+            }
+    
             $this->model->update($data, $citizen);
             return response(['message'=>'Submitted Successfully!'],200);
         } catch (\Exception $th) {
