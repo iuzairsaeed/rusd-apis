@@ -30,8 +30,10 @@ Route::group(['namespace' => 'Api'], function () {
         Route::group(['prefix' => 'user'], function () {
             Route::put('updateProfile', 'UserController@updateProfile');
             Route::put('updateAvatar', 'UserController@updateAvatar');
-            Route::put('updatePin', 'UserController@updatePin');
-            Route::put('updateBiometric', 'UserController@updateBiometric');
+            Route::put('enablePin', 'UserController@updatePin');
+            Route::put('enableBiometric', 'UserController@updateBiometric');
+            Route::put('enable2fa', 'UserController@update2FA');
+            Route::put('verify2fa', 'UserController@verify2FA');
         });
 
         Route::resource('notification', 'NotificationController');

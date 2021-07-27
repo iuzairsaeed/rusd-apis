@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\ProfileUpdateRequest;
 use App\Http\Requests\Auth\AvatarUpdateRequest;
 use App\Http\Requests\Auth\PinUpdateRequest;
 use App\Http\Requests\Auth\BiometricUpdateRequest;
+use App\Http\Requests\Auth\Update2faRequest;
+use App\Notifications\TwoFactorNotification;
 use App\Repositories\Repository;
 use App\Models\User;
 
@@ -54,6 +56,41 @@ class UserController extends Controller
             return response([
                 'message' => 'Pin has been added.',
             ], 200);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+    
+    function update2FA(Request $request){
+        try {
+
+            // Save OTP in DB
+            $user = auth()->user();
+            $code = rand ( 10000 , 99999 );
+            $user->two_factor_code = $code;
+            $user->update();
+
+            // send email to user
+            $user->notify(new TwoFactorNotification($code));
+
+            return response([
+                'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+    
+    function verify2fa(Update2faRequest $request){
+        try {
+            $user = auth()->user();
+
+            if ($user->two_factor_code == $request->code){
+                return response(['message' => '2FA has been varified.',], 200);
+            } 
+            return response([ 'message' => 'OTP Code is not valid.'], 404);
+           
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

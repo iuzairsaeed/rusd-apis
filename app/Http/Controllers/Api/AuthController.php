@@ -154,32 +154,6 @@ class AuthController extends Controller
         return $this->response($user, 200, 'Password has been updated successfully.');
     }
 
-    function forgotPassword(ForgotPasswordRequest $request)
-    {
-        $user = User::where('email', $request->email)->first();
-
-        if(!$user){
-            return response([
-                'message' => 'No user exists with provided email.'
-            ], 404);
-        }
-        if (!$user->is_active){
-            return response([
-                'message' => 'Your account has been disabled. Please contact support.'
-            ], 404);
-        }
-
-        $newPassword = substr(md5(microtime()),rand(0,26),8);
-        $user->password = Hash::make($newPassword);
-        $user->update();
-
-        $user->notify(new ForgotPasswordNotification($newPassword));
-
-        return response([
-            'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
-        ], 200);
-    }
-
     function changePassword(ChangePasswordRequest $request) {
         $user = auth()->user();
         $user->password = Hash::make($request->password);

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ForgotPasswordNotification extends Notification 
+class TwoFactorNotification extends Notification
 {
     use Queueable;
 
@@ -43,16 +43,16 @@ class ForgotPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         $AppName = config('app.name');
-
+        
         return (new MailMessage)
-                    ->subject("$AppName | Forgot Password")
-                    ->line("Greetings from $AppName!")
-                    ->greeting("Hello $notifiable->name,")
-                    ->level('info')
-                    ->line('You are receiving this email because you requested the reset of password.')
-                    ->line('Now in order to access your account kindly use the following credentials:')
-                    ->line("code: $this->code")
-                    ->line('Thank you for using our application!');
+        ->subject("$AppName | 2 Factor Authentication")
+        ->line("Greetings from $AppName!")
+        ->greeting("Hello $notifiable->name,")
+        ->level('info')
+        ->line('You are receiving this email because you requested to enable 2FA.')
+        ->line('Now in order to access your account kindly use the following OTP:')
+        ->line("code: $this->code")
+        ->line('Thank you for using our application!');
     }
 
     /**
