@@ -87,6 +87,8 @@ class UserController extends Controller
             $user = auth()->user();
 
             if ($user->two_factor_code == $request->code){
+                $user->two_factor = true;
+                $user->update();
                 return response(['message' => '2FA has been varified.',], 200);
             } 
             return response([ 'message' => 'OTP Code is not valid.'], 404);

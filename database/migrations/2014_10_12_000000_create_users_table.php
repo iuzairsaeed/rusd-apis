@@ -22,10 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('device_token')->nullable();
-            $table->integer('pin')->nullable();
+            $table->string('pin')->nullable();
             $table->boolean('biometric')->default(false);
             $table->boolean('two_factor')->default(false);
-            $table->integer('two_factor_code')->nullable();
+            $table->string('two_factor_code')->nullable();
             $table->string('avatar')->default('no-image.png');
             $table->string('phone');
             $table->string('country');
