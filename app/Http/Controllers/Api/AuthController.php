@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Setting;
 use Hash;
+use Validator;
 use Session;
+use Password;
 
 class AuthController extends Controller
 {
@@ -91,6 +93,67 @@ class AuthController extends Controller
         return $this->response($user, 201, 'You have registered successfully');
     }
 
+    public function forgot_password(Request $request) {
+
+        $user = User::where('email', $request->email)->first();
+
+        if(!$user){
+            return response([
+                'message' => 'No user exists with provided email.'
+            ], 404);
+        }
+        if (!$user->is_active){
+            return response([
+                'message' => 'Your account has been disabled. Please contact support.'
+            ], 404);
+        }
+
+        $code = rand ( 10000 , 99999 );
+        $user->remember_token = $code;
+        $user->update();
+
+        $user->notify(new ForgotPasswordNotification($code));
+
+        return response([
+            'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
+        ], 200);
+    }
+
+    public function checkResetCode(Request $request) {
+		$user = User::where('email', $request->email)->first();
+
+        if(!$user){
+            return response([
+                'message' => 'No user exists with provided email.'
+            ], 404);
+        }
+        if (!$user->is_active){
+            return response([
+                'message' => 'Your account has been disabled. Please contact support.'
+            ], 404);
+        }
+        if ($user->remember_token == $request->code){
+            return response([
+                'message' => 'Code has been verified.'
+            ], 200);
+        }
+
+        return response([
+            'message' => 'OTP Code is not valid.'
+        ], 404);
+
+	}
+
+    public function resetPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->remember_token = null;
+        $user->save();
+
+        return $this->response($user, 200, 'Password has been updated successfully.');
+    }
+
     function forgotPassword(ForgotPasswordRequest $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -117,8 +180,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    function changePassword(ChangePasswordRequest $request)
-    {
+    function changePassword(ChangePasswordRequest $request) {
         $user = auth()->user();
         $user->password = Hash::make($request->password);
         $user->save();

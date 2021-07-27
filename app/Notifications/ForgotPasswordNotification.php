@@ -49,10 +49,9 @@ class ForgotPasswordNotification extends Notification
                     ->line("Greetings from $AppName!")
                     ->greeting("Hello $notifiable->name,")
                     ->level('info')
-                    ->line('You are receiving this email because you (or someone else) has requested the reset of password.')
+                    ->line('You are receiving this email because you requested the reset of password.')
                     ->line('Now in order to access your account kindly use the following credentials:')
-                    ->line("Username: $notifiable->username")
-                    ->line("Password: $this->password")
+                    ->line("code: $this->password")
                     ->line('Thank you for using our application!');
     }
 

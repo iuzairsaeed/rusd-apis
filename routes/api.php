@@ -11,8 +11,13 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('register', 'AuthController@register');
-        Route::put('forgotPassword', 'AuthController@forgotPassword');
     });
+
+    // Forgot Password Apis 
+    Route::get('forgot-password', 'AuthController@forgot_password');
+    Route::post('check-reset-code', 'AuthController@checkResetCode');
+    Route::post('reset-password', 'AuthController@resetPassword');
+
 
     // After Login 
     Route::group(['middleware' => 'auth:sanctum'], function () {
