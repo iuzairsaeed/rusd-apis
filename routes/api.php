@@ -30,6 +30,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::group(['prefix' => 'user'], function () {
             Route::put('updateProfile', 'UserController@updateProfile');
             Route::put('updateAvatar', 'UserController@updateAvatar');
+            Route::put('updatePin', 'UserController@updatePin');
+            Route::put('updateBiometric', 'UserController@updateBiometric');
         });
 
         Route::resource('notification', 'NotificationController');

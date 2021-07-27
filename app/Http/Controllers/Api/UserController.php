@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\ProfileUpdateRequest;
 use App\Http\Requests\Auth\AvatarUpdateRequest;
+use App\Http\Requests\Auth\PinUpdateRequest;
+use App\Http\Requests\Auth\BiometricUpdateRequest;
 use App\Repositories\Repository;
 use App\Models\User;
 
@@ -29,6 +31,32 @@ class UserController extends Controller
             'message' => 'Profile has been updated.',
             'user' => $user
         ], 200);
+    }
+
+    function updateBiometric(BiometricUpdateRequest $request){
+        try {
+            $user = auth()->user();
+            $user->biometric = $request->biometric;
+            $user->update();
+            return response([
+                'message' => 'Biometric has been added.',
+            ], 200);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    function updatePin(PinUpdateRequest $request){
+        try {
+            $user = auth()->user();
+            $user->pin = $request->pin;
+            $user->update();
+            return response([
+                'message' => 'Pin has been added.',
+            ], 200);
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     function updateAvatar(AvatarUpdateRequest $request)

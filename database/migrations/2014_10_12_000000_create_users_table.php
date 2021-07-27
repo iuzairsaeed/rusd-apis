@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('device_token')->nullable();
+            $table->integer('pin')->nullable();
+            $table->boolean('biometric')->default(false);
             $table->string('avatar')->default('no-image.png');
             $table->string('phone');
             $table->string('country');
