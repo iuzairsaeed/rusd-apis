@@ -184,7 +184,7 @@ class AuthController extends Controller
         $role = Role::where('name', 'normal')->first();
         $user->assignRole([$role->id]);
 
-        $user->setStatus(Pending());
+        $user->setStatus(CompleteProfile());
 
         return $this->response($user, 201, 'You have registered successfully');
     }

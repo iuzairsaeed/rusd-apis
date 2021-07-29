@@ -28,7 +28,7 @@ class UserController extends Controller
         $user = auth()->user();
         $user->update($request->all());
 
-        $user['status'] = $user->status == Pending() ? $user->setStatus(Completed()) : $user->status;
+        $user['status'] = $user->status == CompleteProfile() ? $user->setStatus(ApprovalPending()) : $user->status;
 
         return response([
             'message' => 'Profile has been updated.',

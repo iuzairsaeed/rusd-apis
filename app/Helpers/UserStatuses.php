@@ -1,11 +1,15 @@
 <?php
 
-function Pending()
+function CompleteProfile()
 {
-    return 'Pending';
+    return 'Complete Profile';
 }
 
-function Completed()
+function ApprovalPending()
 {
-    return 'Completed';
+    return 'Approval Pending';
+}
+
+function Completed(){
+    return "";
 }
