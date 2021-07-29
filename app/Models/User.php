@@ -49,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'biometric',
         '2fa',
         '2fa_code',
+        'refresh_token',
     ];
 
     protected $with = [

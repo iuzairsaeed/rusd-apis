@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->boolean('biometric')->default(false);
             $table->boolean('two_factor')->default(false);
             $table->string('two_factor_code')->nullable();
+            $table->string('refresh_token')->nullable();
             $table->string('avatar')->default('no-image.png');
             $table->string('phone');
             $table->string('country');

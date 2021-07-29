@@ -40,6 +40,7 @@ class AuthController extends Controller
                 'city' => $user->city,
                 'zipcode' => $user->zipcode,
                 'status' => $user->status,
+                'refresh_token' => $user->refresh_token,
             ],
             'token' => $token,
             'expiration_minutes' => (int)config('sanctum.expiration')
@@ -62,6 +63,12 @@ class AuthController extends Controller
             ], 400);
         }
 
+        // Set Refresh Token
+        do {
+            $refresh_token = date("Ymdhis") . rand(10000, 99999);
+            $user->refresh_token = $refresh_token;
+        } while ($user->refresh_token != $refresh_token);
+
         $user->update();
         return $this->response($user, 200, 'You have successfully logged in.');
     }
@@ -83,7 +90,13 @@ class AuthController extends Controller
     function register(RegisterRequest $request, RegisterController $register)
     {
         $user = $register->create($request->all());
-        
+        // Set Refresh Token
+        do {
+            $refresh_token = date("Ymdhis") . rand(10000, 99999);
+            $user->refresh_token = $refresh_token;
+        } while ($user->refresh_token != $refresh_token);
+        $user->update();
+
         // Assigning Role ( Normal ) to user
         $role = Role::where('name', 'normal')->first();
         $user->assignRole([$role->id]);
