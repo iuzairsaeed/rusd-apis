@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function __construct(User $model)
     {
-        $this->model = new Repository($model);
+        $this->model = new Repository($model);  
     }
 
     function updateProfile(ProfileUpdateRequest $request)

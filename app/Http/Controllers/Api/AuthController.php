@@ -8,6 +8,7 @@ use App\Notifications\ForgotPasswordNotification;
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Notifications\TwoFactorNotification;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -63,6 +64,19 @@ class AuthController extends Controller
             ], 400);
         }
 
+        if($user->two_factor){
+            // Save OTP in DB
+            $code = rand ( 10000 , 99999 );
+            $user->two_factor_code = $code;
+            $user->update();
+
+            // send email to user
+            $user->notify(new TwoFactorNotification($code));
+            return response([
+                'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
+    ]       , 400);
+        }
+
         // Set Refresh Token
         do {
             $refresh_token =  rand(10000, 99999) . date("Ymdhis") ;
@@ -72,7 +86,47 @@ class AuthController extends Controller
         $user->update();
         return $this->response($user, 200, 'You have successfully logged in.');
     }
+
+    function verify2fa(Request $request){
+        try {
+            $user = User::where('refresh_token', $request->refresh_token)->first();
+            if (!$user) {
+                return response([
+                    'message' => 'These credentials do not match our records.'
+                ], 400);
+            }
+            
+            if ($user->two_factor_code == $request->code){
+                $user->two_factor = true;
+                $user->update();
+                return $this->response($user, 200, 'You have successfully logged in.');
+            } 
+            return response([ 'message' => 'OTP Code is not valid.'], 404);
+           
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
     
+    function biometric(Request $request){
+        try {
+            $user = User::where('refresh_token', $request->refresh_token)->first();
+            if (!$user) {
+                return response([
+                    'message' => 'These credentials do not match our records.'
+                ], 400);
+            }
+            
+            if ($user->biometric == $request->biometric){
+               return $this->response($user, 200, 'You have successfully logged in.');
+            } 
+            return response([ 'message' => 'Fingerprint is not valid | Kindly add your Fingerprint'], 404);
+           
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
     function pin(Request $request)
     {
         $user = User::where('refresh_token', $request->refresh_token)->first();

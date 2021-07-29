@@ -12,6 +12,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('register', 'AuthController@register');
         Route::post('pin', 'AuthController@pin');
+        Route::put('2fa', 'AuthController@verify2fa');
+        Route::post('biometric', 'AuthController@biometric');
     });
 
     // Forgot Password Apis 
