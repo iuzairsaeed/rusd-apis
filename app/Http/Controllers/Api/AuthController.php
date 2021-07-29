@@ -65,7 +65,36 @@ class AuthController extends Controller
 
         // Set Refresh Token
         do {
-            $refresh_token = date("Ymdhis") . rand(10000, 99999);
+            $refresh_token =  rand(10000, 99999) . date("Ymdhis") ;
+            $user->refresh_token = $refresh_token;
+        } while ($user->refresh_token != $refresh_token);
+
+        $user->update();
+        return $this->response($user, 200, 'You have successfully logged in.');
+    }
+    
+    function pin(Request $request)
+    {
+        $user = User::where('refresh_token', $request->refresh_token)->first();
+        if(!$user || !$user->pin){
+            return response([
+                'message' => 'PIN is not registered yet'
+            ], 400);
+        }
+        if (!$user || !Hash::check($request->pin, $user->pin)) {
+            return response([
+                'message' => 'These credentials do not match our records.'
+            ], 400);
+        }
+        if(!$user->is_active){
+            return response([
+                'message' => 'Your account has been disabled. Please contact support.'
+            ], 400);
+        }
+
+        // Set Refresh Token
+        do {
+            $refresh_token =  rand(10000, 99999) . date("Ymdhis") ;
             $user->refresh_token = $refresh_token;
         } while ($user->refresh_token != $refresh_token);
 
@@ -92,7 +121,7 @@ class AuthController extends Controller
         $user = $register->create($request->all());
         // Set Refresh Token
         do {
-            $refresh_token = date("Ymdhis") . rand(10000, 99999);
+            $refresh_token =  rand(10000, 99999) . date("Ymdhis") ;
             $user->refresh_token = $refresh_token;
         } while ($user->refresh_token != $refresh_token);
         $user->update();

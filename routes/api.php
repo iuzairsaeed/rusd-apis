@@ -11,6 +11,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('register', 'AuthController@register');
+        Route::post('pin', 'AuthController@pin');
     });
 
     // Forgot Password Apis 

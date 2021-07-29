@@ -12,6 +12,7 @@ use App\Http\Requests\Auth\Update2faRequest;
 use App\Notifications\TwoFactorNotification;
 use App\Repositories\Repository;
 use App\Models\User;
+use Hash;
 
 class UserController extends Controller
 {
@@ -51,7 +52,7 @@ class UserController extends Controller
     function updatePin(PinUpdateRequest $request){
         try {
             $user = auth()->user();
-            $user->pin = $request->pin;
+            $user->pin = Hash::make($request->pin);
             $user->update();
             return response([
                 'message' => 'Pin has been added.',
