@@ -14,11 +14,33 @@ class CitizenController extends Controller
 
     public function __construct(Citizen $model)
     {
-        $this->middleware('permission:citizen-list|citizen-create|citizen-edit|citizen-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:citizen-getList|citizen-list|citizen-create|citizen-edit|citizen-delete', ['only' => ['index','show']]);
         $this->middleware('permission:citizen-create', ['only' => ['create','store']]);
         $this->middleware('permission:citizen-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:citizen-delete', ['only' => ['destroy']]);
         $this->model = new Repository($model);
+    }
+
+    public function getList(Request $request)
+    {
+        $orderableCols = ['created_at'];
+        $searchableCols = [];
+        $whereChecks = [];
+        $whereOps = [];
+        $whereVals = [];
+        $with = ['user'];
+        $withCount = [];
+
+        $data = $this->model->getData($request, $with, $withCount, $whereChecks, $whereOps, $whereVals, $searchableCols, $orderableCols);
+
+        $serial = ($request->start ?? 0) + 1;
+        collect($data['data'])->map(function ($item) use (&$serial) {
+            $item['serial'] = $serial++;
+            $item['status'] = $item->status;
+            return $item;
+        });
+
+        return response($data, 200);
     }
 
     /**
@@ -28,7 +50,7 @@ class CitizenController extends Controller
      */
     public function index()
     {
-        //
+        return view('citizen.index');
     }
 
     /**
@@ -38,7 +60,7 @@ class CitizenController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -60,7 +82,8 @@ class CitizenController extends Controller
      */
     public function show($id)
     {
-        //
+        $citizen = Citizen::where('id',$id)->first();
+        return view('citizen.show', compact('citizen'));
     }
 
     /**

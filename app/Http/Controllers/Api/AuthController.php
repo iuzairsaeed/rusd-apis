@@ -40,7 +40,7 @@ class AuthController extends Controller
                 'street' => $user->street,
                 'city' => $user->city,
                 'zipcode' => $user->zipcode,
-                'status' => $user->status,
+                'status_warning' => $user->status,
                 'refresh_token' => $user->refresh_token,
             ],
             'token' => $token,
@@ -255,6 +255,6 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return $this->response($user, 200, 'Password has been updated successfully.');
+        return $this->response($user, 200, 'Password has been changed successfully.');
     }
 }

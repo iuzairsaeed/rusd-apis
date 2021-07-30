@@ -37,19 +37,24 @@ class Citizen extends Model
         'bill_scan',
     ];
 
-    public function getNicAttribute($value)
+    // public function getStatusAttribute()
+    // {
+    //     return $this->status()->name;
+    // }
+
+    public function getNicPicAttribute($value)
     {
         $path = nicPath();
         return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';
     }
    
-    public function getPassportAttribute($value)
+    public function getPassportPicAttribute($value)
     {
         $path = passportPath();
         return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';
     }
     
-    public function getBillAttribute($value)
+    public function getBillPicAttribute($value)
     {
         $path = billPath();
         return ($value) ? file_exists($path.$value) ? $path.$value: $path.'no-image.png' : $path.'no-image.png';

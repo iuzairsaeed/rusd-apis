@@ -69,12 +69,21 @@ class CitizenController extends Controller
     {
         try {
             $data = $request->except(['step_no']);
-            $data["user_id"] = auth()->id();
-            $response = $this->model->create($data);
-            return response([
-                'message'=>'Submitted Successfully!',
-                'data'=>$response
-            ],200);
+            $citizen = $this->model->all()->where('user_id',auth()->id())->first();
+            if(!$citizen || $citizen->country != $request->country){
+                $data["user_id"] = auth()->id();
+                if(auth()->user()->status == CompleteProfile()){
+                    return response(['message'=>'Please complete your profile first!'],404);
+                }
+                $response = $this->model->create($data);
+                $response->setStatus(PendingRegistration());
+                return response([
+                    'message'=>'Submitted Successfully!',
+                    'data'=>$response
+                ],200);
+            }
+            return response(['message'=>'you cannot register the same country!'],404);
+
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
@@ -130,6 +139,10 @@ class CitizenController extends Controller
             }
     
             $this->model->update($data, $citizen);
+            $citizen->setStatus(PendingRegistration());
+            if($request->hasFile('nic_scan') && $request->hasFile('passport_scan') && $request->hasFile('bill_scan' )){
+                $citizen->setStatus(PendingApproval());
+            }
             return response(['message'=>'Submitted Successfully!'],200);
         } catch (\Exception $th) {
             return $th->getMessage();

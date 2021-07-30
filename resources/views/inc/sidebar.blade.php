@@ -27,6 +27,13 @@
                         </li>
                     </ul>
                 </li>
+                <li class="has-sub nav-item {{ $segment1 === 'citizenship' ? 'open' : null }} "  {{ (auth()->user()->roles[0]->hasPermissionTo('citizen-edit','citizen-delete','citizen-create','citizen-list')) == true ? "" : "hidden"}}><a href="#"><i class="icon-docs" ></i><span data-i18n="" class="menu-title">Citizenship</span></a>
+                    <ul class="menu-content" >
+                        <li class="nav-item {{ $segment1 === 'citizenship' && $segment2 === null ? 'active' : null }} {{ $segment1 === 'citizenship' && $segment2 != null ? 'active' : null }}"{{ (auth()->user()->roles[0]->hasPermissionTo('citizen-list') ) == true ? "" : "hidden"}}>
+                            <a href="{{route('citizenship.index')}}"><span data-i18n="" class="menu-title">All Citizenship</span></a>
+                        </li>
+                    </ul>
+                </li>
                 
             </ul>
             {{-- Scroll Bar --}}

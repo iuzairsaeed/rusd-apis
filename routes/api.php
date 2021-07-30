@@ -44,6 +44,8 @@ Route::group(['namespace' => 'Api'], function () {
 
         Route::resource('securityQuestion', 'SecurityQuestionController');
 
+        
+
     });
 
     // Without Auth
