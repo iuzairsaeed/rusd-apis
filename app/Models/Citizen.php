@@ -20,6 +20,7 @@ class Citizen extends Model
 
     protected $fillable = [
         'user_id',
+        'step_no',
         'country',
         'nic',
         'expiry_date',

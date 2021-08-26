@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $role = Role::Where('name', 'admin')->first();
         $admin->assignRole([$role->id]);
+        $admin->setStatus(CompleteProfile());
 
         $user = User::create([
             'name' => 'Murtuza Mehdi',
@@ -34,5 +35,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $roleN = Role::where('name', 'normal')->first();
         $user->assignRole([$roleN->id]);
+        $user->setStatus(CompleteProfile());
+
     }
 }

@@ -33,6 +33,7 @@ class CreateCitizensTable extends Migration
         Schema::create('citizens', function (Blueprint $table) use ($experience, $fund) {
             $table->id();
             $table->foreignId('user_id');
+            $table->integer('step_no')->unsigned();
             $table->string('country');
             $table->bigInteger('nic')->unique();
             $table->date('expiry_date');    

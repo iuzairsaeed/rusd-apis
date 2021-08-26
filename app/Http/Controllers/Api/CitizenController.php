@@ -139,9 +139,10 @@ class CitizenController extends Controller
             }
     
             $this->model->update($data, $citizen);
-            $citizen->setStatus(PendingRegistration());
             if($request->hasFile('nic_scan') && $request->hasFile('passport_scan') && $request->hasFile('bill_scan' )){
                 $citizen->setStatus(PendingApproval());
+            } else {
+                $citizen->setStatus(PendingRegistration());
             }
             return response(['message'=>'Submitted Successfully!'],200);
         } catch (\Exception $th) {
