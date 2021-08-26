@@ -31,7 +31,6 @@ class AuthController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
-                'username' => $user->username,
                 'email' => $user->email,
                 'country' => $user->country,
                 'dob' => $user->dob,
@@ -42,6 +41,8 @@ class AuthController extends Controller
                 'zipcode' => $user->zipcode,
                 'status_warning' => $user->status,
                 'refresh_token' => $user->refresh_token,
+                'biometric' => $user->biometric,
+                'two_factor' => $user->two_factor,
             ],
             'token' => $token,
             'expiration_minutes' => (int)config('sanctum.expiration')
@@ -52,7 +53,7 @@ class AuthController extends Controller
 
     function login(Request $request)
     {
-        $user = User::where('username', $request->username)->orWhere('email', $request->username)->first();
+        $user = User::Where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => 'These credentials do not match our records.'
@@ -116,7 +117,6 @@ class AuthController extends Controller
                     'message' => 'These credentials do not match our records.'
                 ], 400);
             }
-            
             if ($user->biometric == $request->biometric){
                return $this->response($user, 200, 'You have successfully logged in.');
             } 

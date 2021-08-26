@@ -117,11 +117,4 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getAllUsers() {
-        $data = User::where('is_dummy', true)->get(['name','username']);
-        collect($data)->map(function ($item) {
-            $item['pass'] = 'secret';
-        });
-        return response($data, 200);
-    }
 }

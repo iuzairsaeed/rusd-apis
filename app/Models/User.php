@@ -23,6 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'is_active' => 'boolean',
         'is_admin' => 'boolean',
+        'biometric' => 'boolean',
+        'two_factor' => 'boolean',
         'email_verified_at' => 'datetime:'.Constant::DATE_FORMAT,
         'created_at' => 'datetime:'.Constant::DATE_FORMAT,
         'updated_at' => 'datetime:'.Constant::DATE_FORMAT,
@@ -32,7 +34,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'name',
-        'username',
         'email',
         'password',
         'phone',
@@ -47,8 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_active',
         'pin',
         'biometric',
-        '2fa',
-        '2fa_code',
+        'two_factor',
+        'two_factor_code',
         'refresh_token',
     ];
 

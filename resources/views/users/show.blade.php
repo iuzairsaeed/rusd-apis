@@ -25,12 +25,6 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="text-bold-700">Username</label>
-                                        <p>{{ $user->username??'-' }}</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
                                         <label class="text-bold-700">Email</label>
                                         <p>{{ $user->email??'-' }}</p>
                                     </div>

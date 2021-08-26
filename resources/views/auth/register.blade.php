@@ -21,12 +21,6 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="label-control" for="vendor_no">User Name </label>
-                                <input type="text" id="phone" class="form-control border-primary" name="username" placeholder="Enter User Name" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
                                 <label class="label-control" for="vendor_no">Email </label>
                                 <input type="email" id="email" class="form-control border-primary" name="email" placeholder="Enter User Email" required>
                             </div>

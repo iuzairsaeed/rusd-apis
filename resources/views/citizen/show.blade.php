@@ -26,7 +26,7 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <div class="card-title-wrap">
-                        <h4 class="card-title">User Detail</h4>
+                        <h4 class="card-title">Citizenship Detail</h4>
                     </div>
                 </div>
                 <div class="card-body px-4">
@@ -129,26 +129,22 @@
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Passport Scan</label>
-                                        <p><img style=" width: 50%; height: 50%;" src=" {{  url('storage/passport/'.$citizen->passport_scan)}}" alt=""> </p>
-                                    </div>
+                            <div class="row mb-2">
+                                <div class="col-lg-3 col-md-4 col-xs-6 thumb mt-2">
+                                    <a href="{{  url('storage/passport/'.$citizen->passport_scan)}}" class="fancybox" rel="ligthbox">
+                                        <img  src=" {{  url('storage/passport/'.$citizen->passport_scan)}}" class="zoom img-fluid "  alt="">
+                                    </a>
                                 </div>
-                                <div class="col-lg-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">NIC Scan</label>
-                                        <p><img style=" width: 50%; height: 50%;" src=" {{  url('storage/nic/'.$citizen->nic_scan)}}" alt=""> </p>
-                                    </div>
+                                <div class="col-lg-3 col-md-4 col-xs-6 thumb mt-2">
+                                    <a href="{{  url('storage/nic/'.$citizen->nic_scan)}}" class="fancybox" rel="ligthbox">
+                                        <img  src=" {{  url('storage/nic/'.$citizen->nic_scan)}}" class="zoom img-fluid "  alt="">
+                                    </a>
                                 </div>
-                                <div class="col-lg-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Bill Scan</label>
-                                        <p><img style=" width: 50%; height: 50%;" src=" {{  url('storage/bill/'.$citizen->bill_scan)}}" alt=""> </p>
-                                    </div>
+                                <div class="col-lg-3 col-md-4 col-xs-6 thumb mt-2">
+                                    <a href="{{  url('storage/bill/'.$citizen->bill_scan)}}" class="fancybox" rel="ligthbox">
+                                        <img  src=" {{  url('storage/bill/'.$citizen->bill_scan)}}" class="zoom img-fluid "  alt="">
+                                    </a>
                                 </div>
-
                             </div>
 
                             <div class="row">
@@ -178,12 +174,12 @@
                                 <div class="col-md-12">
                                     <div class="form-actions left">
                                         <a href="{{route('dashboard')}}">
-                                            <button type="button" class="btn btn-danger mr-1">
-                                                <i class="icon-trash"></i> Cancel
+                                            <button type="reset" class="btn btn-warning  mr-1">
+                                                <i class="ft-rotate-ccw"></i> Reset
                                             </button>
                                         </a>
                                         <button type="submit" class="btn btn-raised btn-success">
-                                            <i class="icon-check"></i> Update User
+                                            <i class="icon-check"></i> Update
                                         </button>
                                     </div>
                                 </div>
@@ -198,91 +194,59 @@
 @endsection
 
 @section('afterStyle')
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     <style>
+        img.zoom {
+            width: 100%;
+            height: 200px;
+            border-radius:5px;
+            object-fit:cover;
+            -webkit-transition: all .3s ease-in-out;
+            -moz-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            -ms-transition: all .3s ease-in-out;
+        }
+        .transition {
+            -webkit-transform: scale(1.2); 
+            -moz-transform: scale(1.2);
+            -o-transform: scale(1.2);
+            transform: scale(1.2);
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-title {
+            color:#000;
+        }
+        .modal-footer{
+            display:none;  
+        }
+
         /* Style the Image Used to Trigger the Modal */
         #myImg {
             border-radius: 5px;
             cursor: pointer;
             transition: 0.3s;
         }
-
-        #myImg:hover {opacity: 0.7;}
-
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-        }
-
-        /* Modal Content (Image) */
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-        }
-
-        /* Caption of Modal Image (Image Text) - Same Width as the Image */
-        #caption {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
-            color: #ccc;
-            padding: 10px 0;
-            height: 150px;
-        }
-
-        /* Add Animation - Zoom in the Modal */
-        .modal-content, #caption {
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        @keyframes zoom {
-            from {transform:scale(0)}
-            to {transform:scale(1)}
-        }
-
-        /* The Close Button */
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* 100% Image Width on Smaller Screens */
-        @media only screen and (max-width: 700px){
-        .modal-content {
-            width: 100%;
-        }
-        }
     </style>
 @endsection
 
 @section('afterScript')
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 <script>
+    $(".fancybox").fancybox({
+        openEffect: "none",
+        closeEffect: "none"
+    });
+        
+    $(".zoom").hover(function(){
+        
+        $(this).addClass('transition');
+    }, function(){
+        
+        $(this).removeClass('transition');
+    });
+
     $('#dTable').DataTable({
         order: [0 , 'desc'],
         columnDefs: [
@@ -291,46 +255,6 @@
         ]
     });
 
-    $('#role').select2({
-        placeholder: "Search Role",
-        allowClear: true,
-        ajax: {
-            url: "{{ route('role.get-role') }}",
-            type: "GET",
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    search: params.term
-                };
-            },
-            processResults: function (response) {
-                return {
-                    results: response
-                };
-            },
-            cache: true
-        }
-    });
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the image and insert it inside the modal - use its "alt" text as a caption
-    var img = document.getElementById("myImg");
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
-    img.onclick = function(){
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    captionText.innerHTML = this.alt;
-    }
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-    modal.style.display = "none";
-    }
 </script>
 
 

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Wyattcast44\SafeUsername\Rules\AllowedUsername;
 
 class RegisterRequest extends FormRequest
 {
@@ -26,7 +25,6 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['bail', 'alpha_spaces', 'max:255', 'min:3'],
-            'username' => ['bail', 'required', 'string', 'alpha_dash', 'max:255', 'min:3', 'unique:users', new AllowedUsername],
             'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required','regex:/[0-9+*-*]/'],

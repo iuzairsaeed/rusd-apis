@@ -27,7 +27,6 @@ class UserRepository implements RepositoryInterface
     public function create(array $data)
     {
         $this->model->name = $data['name'];
-        $this->model->username = $data['username'];
         $this->model->email = $data['email'];
         $this->model->password = bcrypt($data['password']);
         $this->model->phone = $data['phone'];

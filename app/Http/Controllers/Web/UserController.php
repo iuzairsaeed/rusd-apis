@@ -25,8 +25,8 @@ class UserController extends Controller
 
     public function getList(Request $request)
     {
-        $orderableCols = ['created_at', 'name', 'username', 'email', 'is_premium', 'is_active'];
-        $searchableCols = ['name', 'username', 'email'];
+        $orderableCols = ['created_at', 'name', 'email', 'is_premium', 'is_active'];
+        $searchableCols = ['name', 'email'];
         $whereChecks = ['id'];
         $whereOps = ['<>'];
         $whereVals = [auth()->id()];
