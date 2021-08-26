@@ -42,7 +42,7 @@ class UserController extends Controller
             $user->biometric = $request->biometric;
             $user->update();
             return response([
-                'message' => 'Biometric has been added.',
+                'message' => 'Fingerprint has been added.',
             ], 200);
         } catch (\Throwable $th) {
             return $th->getMessage();

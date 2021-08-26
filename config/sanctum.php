@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'expiration' => env('API_SESSION_LIFETIME', 120),
+    'expiration' => env('API_SESSION_LIFETIME', 180),
 
     /*
     |--------------------------------------------------------------------------
