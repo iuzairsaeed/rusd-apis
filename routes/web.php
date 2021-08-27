@@ -30,8 +30,12 @@ Route::group(['namespace' => 'Web'], function () {
         Route::get('role-list', 'RoleController@getList')->name('role.get-list');
         Route::get('role-dropdown-list', 'RoleController@getRole')->name('role.get-role');
         
+        Route::resource('countries','CountryController');
+        Route::get('country-list', 'CountryController@getList')->name('country.getList');
+
         Route::resource('citizenship','CitizenController');
         Route::get('citizenship-list', 'CitizenController@getList')->name('citizenship.getList');
+        
 
     });
    

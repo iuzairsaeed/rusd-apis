@@ -117,23 +117,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Profile Status</label>
-                                        <div class="input-group">
-                                            <div class="custom-control custom-radio display-inline-block pr-3">
-                                                <input type="radio" class="custom-control-input" name="status" id="status1" value='1' {{($user->status == CompleteProfile() ) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="status1">Pending</label>
-                                            </div>
-                                            <div class="custom-control custom-radio display-inline-block">
-                                                <input type="radio" class="custom-control-input" name="status" id="status2" value='0' {{($user->status == ApprovalPending() ) ? 'checked' :'' }}>
-                                                <label class="custom-control-label" for="status2">Completed</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-7 col-sm-12">
+                                <div class="col-lg-5 col-sm-12">
                                     <div class="form-group">
                                         <label class="label-control">Role</label>
                                         <select name="roles[]" id="role" value="{{old('role')}}" class="form-control border-primary" >

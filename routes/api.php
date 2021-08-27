@@ -42,6 +42,8 @@ Route::group(['namespace' => 'Api'], function () {
         
         Route::resource('citizen', 'CitizenController');
 
+        Route::resource('country','CountryController');
+
         Route::resource('securityQuestion', 'SecurityQuestionController');
 
         

@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $with = [
-
+        'nationality',
     ];
 
     public function getStatusAttribute()
@@ -83,5 +83,26 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->device_token;
     }
+
+    /**
+     * Get the nationality associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function nationality()
+    {
+        return $this->hasOne(Country::class);
+    }
+    
+    /**
+     * Get the citizenship associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function citizenship()
+    {
+        return $this->hasOne(Citizen::class);
+    }
+
 
 }

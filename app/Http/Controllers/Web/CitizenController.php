@@ -36,7 +36,7 @@ class CitizenController extends Controller
         $serial = ($request->start ?? 0) + 1;
         collect($data['data'])->map(function ($item) use (&$serial) {
             $item['serial'] = $serial++;
-            $item['status'] = $item->status;
+            $item['status'] = $item->user->status;
             return $item;
         });
 
@@ -106,7 +106,21 @@ class CitizenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $user = Citizen::where('id', $id)->first()->user;
+        switch ($data['status']) {
+            case PendingApproval():
+                $user->setStatus(PendingApproval());
+                break;
+            case Approved():
+                $user->setStatus(Approved());
+                break;
+            default:
+                $user->setStatus(Denied());
+                break;
+        }
+
+        return redirect()->back()->with(["success"=>"Updated Succesfully"]);
     }
 
     /**

@@ -51,12 +51,17 @@
         },
         columns: [
             { data: 'serial'},
-            { data: 'user.name' },
-            { data: 'country' },
+            { data: 'user', render:function (data, type, full, meta) {
+                                return `<img class="width-50 rounded-circle" src=${full.user.avatar}> ${full.user.name}`;  }
+            },
+            { data: 'user', render:function (data, type, full, meta) {
+                                return `${full.user.country}`;  }
+            },
             { data: 'status', render:function (data, type, full, meta) {
-                                return (full.status == "Pending Registration") ? `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> Pending Registration`
+                                console.log(full);
+                                return (full.status == "Denied") ? `<i class="fa fa-dot-circle-o danger font-medium-1 mr-1"></i> Denied`
                                         : (full.status == "Pending Approval") ? `<i class="fa fa-dot-circle-o warning font-medium-1 mr-1"></i> Pending Approval`
-                                        : `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Completed`;  }
+                                        : `<i class="fa fa-dot-circle-o success font-medium-1 mr-1"></i> Approved`;  }
             },
             { data: 'actions', render:function (data, type, full, meta) {
                                 return `<a href="/citizenship/${full.id}" class="showStatus info p-0 mr-2 success" title="View">

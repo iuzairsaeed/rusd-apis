@@ -18,6 +18,8 @@ class UsersTableSeeder extends Seeder
         $admin = User::create([
             'name' => 'Uzair Saeed',
             'email' => 'uzair@rusd.com',
+            'country' => 'Douglas',
+            'dob' => '1938-01-21',
             'is_admin' => true,
             'password' => Hash::make('secret'),
             'created_at' => now()
@@ -29,6 +31,8 @@ class UsersTableSeeder extends Seeder
         $user = User::create([
             'name' => 'Murtuza Mehdi',
             'email' => 'murtuza@rusd.com',
+            'country' => 'Douglas',
+            'dob' => '1938-01-21',
             'is_admin' => false,
             'password' => Hash::make('secret'),
             'created_at' => now()

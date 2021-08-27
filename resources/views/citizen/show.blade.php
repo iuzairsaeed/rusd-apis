@@ -36,58 +36,19 @@
                         <div class="form-body">
 
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="text-bold-700">User</label>
                                         <p>{{ $citizen->user->name??'-' }}</p>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="text-bold-700">Country</label>
-                                        <p>{{ $citizen->country??'-' }}</p>
+                                        <p>{{ $citizen->user->country??'-' }}</p>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">NIC</label>
-                                        <p>{{ $citizen->nic ??'-' }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">NIC Expiry</label>
-                                        <p>{{ $citizen->expiry_date??'-' }}</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Passport</label>
-                                        <p>{{ $citizen->passport_no ??'-' }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Tax Payer</label>
-                                        <p>{{ $citizen->tax_payer ? 'Yes' : "No" }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="text-bold-700">Tax #</label>
-                                        <p>{{ $citizen->tax_no ??'-' }}</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="text-bold-700">Net Income</label>
                                         <p>{{ $citizen->net_income ??'-' }}</p>
@@ -154,15 +115,15 @@
                                         <label class="text-bold-700">Account Status</label>
                                         <div class="input-group">
                                             <div class="custom-control custom-radio display-inline-block pr-3">
-                                                <input type="radio" class="custom-control-input" name="status" id="status1" value='1' {{($citizen->status == PendingApproval()) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="status1">Pending</label>
+                                                <input type="radio" class="custom-control-input" name="status" id="status1" value='{{PendingApproval()}}' {{($citizen->user->status == PendingApproval()) ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="status1">Pending Approval</label>
                                             </div>
                                             <div class="custom-control custom-radio display-inline-block pr-3">
-                                                <input type="radio" class="custom-control-input" name="status" id="status2" value='0' {{($citizen->status ==  Approved() ) ? 'checked' :'' }}>
+                                                <input type="radio" class="custom-control-input" name="status" id="status2" value='{{Approved()}}' {{($citizen->user->status ==  Approved() ) ? 'checked' :'' }}>
                                                 <label class="custom-control-label" for="status2">Approved</label>
                                             </div>
                                             <div class="custom-control custom-radio display-inline-block pr-3">
-                                                <input type="radio" class="custom-control-input" name="status" id="status3" value='0' {{($citizen->status == Denied() ) ? 'checked' :'' }}>
+                                                <input type="radio" class="custom-control-input" name="status" id="status3" value='{{Denied()}}' {{($citizen->user->status == Denied() ) ? 'checked' :'' }}>
                                                 <label class="custom-control-label" for="status3">Denied</label>
                                             </div>
                                         </div>

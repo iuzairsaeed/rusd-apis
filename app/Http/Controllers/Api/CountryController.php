@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use App\Models\Country;
 use App\Repositories\Repository;
-use App\Http\Requests\CitizenRequest;
-use App\Models\Citizen;
+use App\Http\Requests\CountryRequest;
 
-class CitizenController extends Controller
+class CountryController extends Controller
 {
+    
     protected $model;
 
-    public function __construct(Citizen $model)
+    public function __construct(Country $model)
     {
-        // $this->middleware('permission:citizen-list|citizen-create|citizen-edit|citizen-delete', ['only' => ['index','show']]);
-        // $this->middleware('permission:citizen-create', ['only' => ['create','store']]);
-        // $this->middleware('permission:citizen-edit', ['only' => ['edit','update']]);
-        // $this->middleware('permission:citizen-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:plan-list|plan-create|plan-edit|plan-delete', ['only' => ['index','show','getList']]);
+        // $this->middleware('permission:SecurityQuestion-create', ['only' => ['create','store']]);
+        // $this->middleware('permission:SecurityQuestion-edit', ['only' => ['edit','update']]);
+        // $this->middleware('permission:SecurityQuestion-delete', ['only' => ['destroy']]);
         $this->model = new Repository($model);
     }
 
@@ -65,7 +65,7 @@ class CitizenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CitizenRequest $request)
+    public function store(CountryRequest $request)
     {
         try {
             $data = $request->except(['step_no']);
@@ -76,9 +76,9 @@ class CitizenController extends Controller
                     return response(['message'=>'Please complete your profile first!'],404);
                 }
                 $response = $this->model->create($data);
-                $response->setStatus(PendingRegistration());
+                $response['status_warning'] = auth()->user()->status  ;
                 return response([
-                    'message'=>'Submitted Successfully!',
+                    'message'=>'Country has been Added Successfully!',
                     'data'=>$response
                 ],200);
             }
@@ -118,35 +118,9 @@ class CitizenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CitizenRequest $request, Citizen $citizen)
+    public function update(Request $request, $id)
     {
-        try {
-            $data = $request->all();
-            if($request->hasFile('nic_scan')){
-                $deleteFile = $citizen->getAttributes()['nic_scan'] != 'no-image.png' ? $citizen->nic_scan : null;
-                $file_name = uploadFile($request->nic_scan, nicPath(), $deleteFile);
-                $data['nic_scan'] = $file_name;
-            }
-            if($request->hasFile('passport_scan')){
-                $deleteFile = $citizen->getAttributes()['passport_scan'] != 'no-image.png' ? $citizen->passport_scan : null;
-                $file_name = uploadFile($request->passport_scan, passportPath(), $deleteFile);
-                $data['passport_scan'] = $file_name;
-            }
-            if($request->hasFile('bill_scan')){
-                $deleteFile = $citizen->getAttributes()['bill_scan'] != 'no-image.png' ? $citizen->bill_scan : null;
-                $file_name = uploadFile($request->bill_scan, billPath(), $deleteFile);
-                $data['bill_scan'] = $file_name;
-            }
-            $this->model->update($data, $citizen);
-            if($request->hasFile('nic_scan') && $request->hasFile('passport_scan') && $request->hasFile('bill_scan' )){
-                $citizen->user->setStatus(PendingApproval());
-            } else {
-                $citizen->user->setStatus(PendingProfile());
-            }
-            return response(['message'=>'Submitted Successfully!'],200);
-        } catch (\Exception $th) {
-            return $th->getMessage();
-        }
+        //
     }
 
     /**

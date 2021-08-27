@@ -9,7 +9,7 @@ use App\Models\Constant;
 
 class Citizen extends Model
 {
-    use SoftDeletes, HasStatuses;
+    use SoftDeletes;
 
     protected $casts = [
         'created_at' => 'datetime:'.Constant::DATE_FORMAT,
@@ -18,15 +18,11 @@ class Citizen extends Model
 
     protected $hidden = ['deleted_at'];
 
+    protected $with = ['user'];
+
     protected $fillable = [
         'user_id',
         'step_no',
-        'country',
-        'nic',
-        'expiry_date',
-        'passport_no',
-        'tax_payer',
-        'tax_no',
         'net_income',
         'source_of_fund',
         'bank_deposit',

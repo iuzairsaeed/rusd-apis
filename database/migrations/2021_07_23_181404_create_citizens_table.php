@@ -32,14 +32,8 @@ class CreateCitizensTable extends Migration
 
         Schema::create('citizens', function (Blueprint $table) use ($experience, $fund) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->uniqid();
             $table->integer('step_no')->unsigned();
-            $table->string('country');
-            $table->bigInteger('nic')->unique();
-            $table->date('expiry_date');    
-            $table->bigInteger('passport_no')->unique();    
-            $table->boolean('tax_payer')->nullable()->default(false);    
-            $table->bigInteger('tax_no')->nullable()->unique();    
             $table->bigInteger('net_income')->nullable();    
             $table->enum('source_of_fund', $fund )->nullable();    
             $table->enum('bank_deposit', $experience)->nullable();

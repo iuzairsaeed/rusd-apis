@@ -117,7 +117,7 @@ class AuthController extends Controller
                     'message' => 'These credentials do not match our records.'
                 ], 400);
             }
-            if ($user->biometric == $request->biometric){
+            if ($user->biometric == true && $user->biometric == $request->biometric ){
                return $this->response($user, 200, 'You have successfully logged in.');
             } 
             return response([ 'message' => 'Fingerprint is not valid | Kindly add your Fingerprint'], 404);
