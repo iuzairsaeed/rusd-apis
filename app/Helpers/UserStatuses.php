@@ -20,6 +20,16 @@ function PendingApproval()
     return 'Pending Approval';
 }
 
+function Approved()
+{
+    return 'Approved';
+}
+
+function Denied()
+{
+    return 'Denied';
+}
+
 function Completed(){
     return "";
 }

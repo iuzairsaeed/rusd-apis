@@ -76,7 +76,7 @@ class CitizenController extends Controller
                     return response(['message'=>'Please complete your profile first!'],404);
                 }
                 $response = $this->model->create($data);
-                $response->setStatus(PendingRegistration());
+                $response->setStatus(PendingApproval());
                 return response([
                     'message'=>'Submitted Successfully!',
                     'data'=>$response
