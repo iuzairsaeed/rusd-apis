@@ -43,6 +43,7 @@ class AuthController extends Controller
                 'refresh_token' => $user->refresh_token,
                 'biometric' => $user->biometric,
                 'two_factor' => $user->two_factor,
+                'step' => $user->step,
             ],
             'token' => $token,
             'expiration_minutes' => (int)config('sanctum.expiration')
@@ -179,7 +180,8 @@ class AuthController extends Controller
             $user->refresh_token = $refresh_token;
         } while ($user->refresh_token != $refresh_token);
         $user->update();
-
+        // Assigning Step Default Value
+        $user->step()->sync(1);
         // Assigning Role ( Normal ) to user
         $role = Role::where('name', 'normal')->first();
         $user->assignRole([$role->id]);

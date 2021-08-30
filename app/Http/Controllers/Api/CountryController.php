@@ -75,8 +75,10 @@ class CountryController extends Controller
                 if(auth()->user()->status == CompleteProfile()){
                     return response(['message'=>'Please complete your profile first!'],404);
                 }
+                auth()->user()->nationality != null ? auth()->user()->step()->sync(3) : null;
                 $response = $this->model->create($data);
-                $response['status_warning'] = auth()->user()->status  ;
+                $response['status_warning'] = auth()->user()->status;
+                $response['step'] = auth()->user()->step;
                 return response([
                     'message'=>'Country has been Added Successfully!',
                     'data'=>$response

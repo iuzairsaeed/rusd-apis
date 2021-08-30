@@ -51,17 +51,26 @@ class SecurityQuestionController extends Controller
     {
         try {
             if(!SecurityQuestion::where('user_id', auth()->id())->exists() ){
-               $data = [
-                   'mother_name' => strtoupper($request->mother_name),
-                   'school_name' => strtoupper($request->school_name),
-                   'friend_name' => strtoupper($request->friend_name),
-                   'user_id' => auth()->id(),
-               ];
-               
-               $response = $this->model->create($data);
-               return response(['message'=>'Submitted Successfully!'],200);
+                $data = [
+                    'mother_name' => strtoupper($request->mother_name),
+                    'school_name' => strtoupper($request->school_name),
+                    'friend_name' => strtoupper($request->friend_name),
+                    'user_id' => auth()->id(),
+                ];
+                
+                $response = $this->model->create($data);
+                auth()->user()->step()->sync(7);
+                $response['status_warning'] = auth()->user()->status;
+                $response['step'] = auth()->user()->step;
+                return response([
+                    'message'=>'Security Question has been Added Successfully!',
+                    'data'=>SecurityQuestion::where('user_id', auth()->id())->get()
+                ],200);
             }
-            return response(['message'=>'You already saved your answers!'],422);
+            return response([
+                'message'=>'You already saved your answers!',
+                'data'=>SecurityQuestion::where('user_id', auth()->id())->get()
+            ],422);
 
         } catch (\Throwable $th) {
             return $th->getMessage();

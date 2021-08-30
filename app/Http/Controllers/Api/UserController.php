@@ -27,6 +27,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $user->update($request->all());
+        $user->step()->sync(2);
         $user['status_warning'] = $user->status == CompleteProfile() ? $user->setStatus(PendingProfile()) : $user->status;
 
         return response([

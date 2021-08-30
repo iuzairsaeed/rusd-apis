@@ -76,7 +76,9 @@ class CitizenController extends Controller
                     return response(['message'=>'Please complete your profile first!'],404);
                 }
                 $response = $this->model->create($data);
-                $response->setStatus(PendingApproval());
+                auth()->user()->step()->sync(4);
+                $response['step'] = auth()->user()->step;
+                auth()->user()->setStatus(PendingApproval());
                 return response([
                     'message'=>'Submitted Successfully!',
                     'data'=>$response
@@ -137,15 +139,22 @@ class CitizenController extends Controller
                 $file_name = uploadFile($request->bill_scan, billPath(), $deleteFile);
                 $data['bill_scan'] = $file_name;
             }
-            $this->model->update($data, $citizen);
+            $response = $this->model->update($data, $citizen);
+
             if($request->hasFile('nic_scan') && $request->hasFile('passport_scan') && $request->hasFile('bill_scan' )){
-                $citizen->user->setStatus(PendingApproval());
+                auth()->user()->setStatus(PendingApproval());
+                auth()->user()->step()->sync(6);
             } else {
-                $citizen->user->setStatus(PendingProfile());
+                auth()->user()->setStatus(PendingProfile());
+                auth()->user()->step()->sync(5);
             }
-            return response(['message'=>'Submitted Successfully!'],200);
+
+            return response([
+                    'message'=>'Submited Successfully!',
+                    'data'=>$citizen
+            ],200);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            return $th;
         }
     }
 

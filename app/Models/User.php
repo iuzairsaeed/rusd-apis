@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $with = [
-        'nationality',
+        'nationality','step'
     ];
 
     public function getStatusAttribute()
@@ -104,5 +104,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Citizen::class);
     }
 
+    /**
+     * Get all of the step for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function step()
+    {
+        return $this->belongsToMany(Step::class , 'user_steps', 'user_id', 'step_id');
+    }
 
 }

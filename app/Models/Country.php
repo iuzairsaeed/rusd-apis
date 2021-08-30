@@ -16,6 +16,7 @@ class Country extends Model
     ];
 
     protected $hidden = ['deleted_at'];
+
     protected $fillable = [
         'user_id',
         'country',
@@ -31,7 +32,7 @@ class Country extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

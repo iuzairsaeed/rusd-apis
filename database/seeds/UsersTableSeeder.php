@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('secret'),
             'created_at' => now()
         ]);
+        $admin->step()->sync(1);
         $role = Role::Where('name', 'admin')->first();
         $admin->assignRole([$role->id]);
         $admin->setStatus(CompleteProfile());
@@ -37,6 +38,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('secret'),
             'created_at' => now()
         ]);
+        $user->step()->sync(1);
         $roleN = Role::where('name', 'normal')->first();
         $user->assignRole([$roleN->id]);
         $user->setStatus(CompleteProfile());
