@@ -27,7 +27,7 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Citizen $request)
+    public function index(Country $request)
     {
         $orderableCols = [];
         $searchableCols = [];
@@ -65,26 +65,25 @@ class CountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CountryRequest $request)
+    public function store(CountryRequest $request,Country $country)
     {
         try {
-            $data = $request->except(['step_no']);
-            $citizen = $this->model->all()->where('user_id',auth()->id())->first();
-            if(!$citizen || $citizen->country != $request->country){
-                $data["user_id"] = auth()->id();
-                if(auth()->user()->status == CompleteProfile()){
-                    return response(['message'=>'Please complete your profile first!'],404);
-                }
-                auth()->user()->nationality != null ? auth()->user()->step()->sync(3) : null;
-                $response = $this->model->create($data);
-                $response['status_warning'] = auth()->user()->status;
-                $response['step'] = auth()->user()->step;
-                return response([
-                    'message'=>'Country has been Added Successfully!',
-                    'data'=>$response
-                ],200);
+            $data = $request->all();
+            foreach ($data as $key => $value) {
+                $data[$key]["user_id"] = auth()->id();
+                $data[$key]["created_at"] = now();
             }
-            return response(['message'=>'you cannot register the same country!'],404);
+            if(auth()->user()->status == CompleteProfile()){
+                return response(['message'=>'Please complete your profile first!'],404);
+            }
+            auth()->user()->nationality != null ? auth()->user()->step()->sync(3) : null;
+            $this->model->insert($data , $country);
+            $response['status_warning'] = auth()->user()->status;
+            $response['step'] = auth()->user()->step;
+            return response([
+                'message'=>'Country has been Added Successfully!',
+                'data'=>$response
+            ],200);
 
         } catch (\Throwable $th) {
             return $th->getMessage();

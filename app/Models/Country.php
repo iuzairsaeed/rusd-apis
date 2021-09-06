@@ -23,6 +23,7 @@ class Country extends Model
         'nic',
         'expiry_date',
         'passport_no',
+        'passport_expiry_date',
         'tax_payer',
         'tax_no',
     ];
