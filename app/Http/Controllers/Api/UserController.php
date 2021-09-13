@@ -75,7 +75,7 @@ class UserController extends Controller
             $user->notify(new TwoFactorNotification($code));
 
             return response([
-                'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
+                'message' => 'An email has been sent to your account with Code. (If you cannot find Check in Spam/Junk)'
             ], 200);
 
         } catch (\Throwable $th) {

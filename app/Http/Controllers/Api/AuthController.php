@@ -66,19 +66,6 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if($user->two_factor){
-            // Save OTP in DB
-            $code = rand ( 10000 , 99999 );
-            $user->two_factor_code = $code;
-            $user->update();
-
-            // send email to user
-            $user->notify(new TwoFactorNotification($code));
-            return response([
-                'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
-    ]       , 400);
-        }
-
         // Set Refresh Token
         do {
             $refresh_token =  rand(10000, 99999) . date("Ymdhis") ;
@@ -86,18 +73,24 @@ class AuthController extends Controller
         } while ($user->refresh_token != $refresh_token);
 
         $user->update();
+
+        if($user->two_factor){
+            // Save OTP in DB
+            $code = rand ( 10000 , 99999 );
+            $user->two_factor_code = $code;
+            $user->update();
+            // send email to user
+            $user->notify(new TwoFactorNotification($code));
+            
+        }
+
+        
         return $this->response($user, 200, 'You have successfully logged in.');
     }
 
     function verify2fa(Request $request){
         try {
-            $user = User::where('refresh_token', $request->refresh_token)->first();
-            if (!$user) {
-                return response([
-                    'message' => 'These credentials do not match our records.'
-                ], 400);
-            }
-            
+                        
             if ($user->two_factor_code == $request->code){
                 $user->two_factor = true;
                 $user->update();
@@ -213,7 +206,7 @@ class AuthController extends Controller
         $user->notify(new ForgotPasswordNotification($code));
 
         return response([
-            'message' => 'An email has been sent to your account with new password. (If you cannot find Check in Spam/Junk)'
+            'message' => 'An email has been sent to your account with Code. (If you cannot find Check in Spam/Junk)'
         ], 200);
     }
 
