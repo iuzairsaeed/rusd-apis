@@ -28,7 +28,7 @@ class CountryRequest extends FormRequest
             '*.nic' => ['bail','required', 'numeric', 'min:6' , 'digits_between:6,20', 'unique:countries'],
             '*.expiry_date' => ['bail','required', 'date', 'after:now'],
             '*.passport_expiry_date' => ['bail','required', 'date', 'after:now'],
-            '*.passport_no' => ['bail','required', 'numeric', 'min:6' , 'digits_between:6,20','unique:countries'],
+            '*.passport_no' => ['bail','required', 'string', 'max:8', 'unique:countries'],
             '*.tax_payer' => ['bail','required', 'boolean'],
             '*.tax_no' => ['bail','required', 'numeric','unique:countries'],
         ];
