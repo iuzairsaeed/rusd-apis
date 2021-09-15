@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use SoftDeletes, HasApiTokens, Notifiable, HasRoles, HasStatuses;
 
     protected $hidden = [
-        'pin', 'biometric', 'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
+        'pin', 'updated_at', 'email_verified_at', 'password', 'remember_token', 'device_token', 'is_admin'
     ];
 
     protected $casts = [

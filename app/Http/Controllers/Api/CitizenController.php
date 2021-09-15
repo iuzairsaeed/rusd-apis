@@ -45,6 +45,10 @@ class CitizenController extends Controller
 
         $data = $this->model->getDataApi($request, $with, $withTrash, $withCount, $whereHas, $withSums, $withSumsCol, $addWithSums, $whereChecks,
                                         $whereOps, $whereVals, $searchableCols, $orderableCols, $currentStatus);
+        collect($data['data'])->map(function ($item)  {
+            $item->user['status_warning'] = auth()->user()->status;
+            return $item;
+        });
                                     
         return response($data, 200);
     }
