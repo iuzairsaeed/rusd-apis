@@ -110,10 +110,13 @@ class UserController extends Controller
             $user->avatar = $file_name;
         }
         $user->update();
+        $user->step()->sync(1);
 
         return response([
             'message' => 'Avatar has been updated.',
-            'avatar' => avatarsPath().$file_name
+            'data' => $user,
+            'avatar' => avatarsPath().$file_name,
+
         ], 200);
     }
 

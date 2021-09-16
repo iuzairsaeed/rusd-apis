@@ -174,7 +174,7 @@ class AuthController extends Controller
         } while ($user->refresh_token != $refresh_token);
         $user->update();
         // Assigning Step Default Value
-        $user->step()->sync(1);
+        $user->step()->sync(8);
         // Assigning Role ( Normal ) to user
         $role = Role::where('name', 'normal')->first();
         $user->assignRole([$role->id]);

@@ -23,6 +23,10 @@ class StepTableSeeder extends Seeder
                 'step_no'=>++$k,
             ]);
         }
+        Step::create([
+            'name'=>'Profile', 
+            'step_no'=>0,
+        ]);
 
     }
 }
